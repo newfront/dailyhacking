@@ -2,6 +2,12 @@
 
 # prime number generator
 
+@args = ARGV if !ARGV.nil?
+@start = @args[0].to_i
+@limit = @args[1].to_i
+
+puts "Start #{@start.to_s} - LIMIT #{@limit.to_s}"
+
 @primes = []
 
 def benchmark(&block)
@@ -12,20 +18,17 @@ def benchmark(&block)
   puts "\nBenchmark: %f" % t
 end
 
-def gather_primes_to(num,return_value=true)
-  
+def gather_primes(start,limit,return_value=true)
 	# prime numbers are only divisible by 1 and themselves
-	for @i in 1..(num) do
-	  test_prime = check_for_prime(@i,num)
+	for @i in start..(limit) do
+	  test_prime = check_for_prime(@i,limit)
 	  @primes << test_prime if !test_prime.nil?
 	end
-  
   if return_value
     return @primes
   else
     puts "\nPRIMES:\n#{@primes.inspect}"
 	end
-	
 end
 
 def check_for_prime(current,total)
@@ -57,7 +60,37 @@ def check_for_prime(current,total)
 end
 
 # get primes
-#primes = gather_primes_to(500,true)
+#primes = gather_primes(50,500,true)
 #puts "\nPRIMES:\n#{@primes.inspect}"
 
-benchmark { gather_primes_to(500,false) }
+#@cap = 600851475143
+
+if !@limit.nil?
+  @cap = @limit
+else
+  @cap = 600851475143
+end
+
+if !@start.nil?
+  @current = @start
+else
+  @current = 0
+end
+
+@threads = 0
+@slices = 100
+
+# loop (do, while) !
+begin
+  if @current <= @cap
+    last = @current
+    @current += @slices 
+    @threads += 1
+    puts "Current: #{@current.to_s}\n"
+    puts "Primes: #{@primes.size.to_s}\n"
+    benchmark { gather_primes(last,@current,false) }
+    puts "Ran #{@threads} Times"
+  end
+end while @current < @cap
+
+#benchmark { gather_primes_to(600851475143,false) }
