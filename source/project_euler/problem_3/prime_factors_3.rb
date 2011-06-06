@@ -46,12 +46,12 @@ end
 # Starting Set
 #run_recursive_loop { divide_and_find_prime_results(13195,@primes) }
 
-#def run_til_none_left_to_run(test_number, start_set)
-  # step 1 (run against first set) | divide_and_find_prime_results(13195,@primes)
-  #r = run_recursive_loop { divide_and_find_prime_results(test_number,start_set) }
-  #puts "#{@count.to_s} Wave (TEST_NUMBER: #{test_number.to_s}\nRESULTS SET: #{r['set'].inspect}\nPrime Factors: #{r['prime_factors'].inspect}"
-#end
+def run_til_none_left_to_run(test_number, start_set)
+  #step 1 (run against first set) | divide_and_find_prime_results(13195,@primes)
+  r = run_recursive_loop { divide_and_find_prime_results(test_number,start_set) }
+  puts "#{@count.to_s} Wave (TEST_NUMBER: #{test_number.to_s}\nRESULTS SET: #{r['set'].inspect}\nPrime Factors: #{r['prime_factors'].inspect}"
+end
 
-run_recursive_loop { divide_and_find_prime_results(test_number,start_set) }
+#run_recursive_loop { divide_and_find_prime_results(test_number,start_set) }
 
-#run_til_none_left_to_run(13195,@primes)
+run_til_none_left_to_run(13195,@primes)
