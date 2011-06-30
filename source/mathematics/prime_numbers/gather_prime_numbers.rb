@@ -1,10 +1,11 @@
 #!/usr/bin/ruby
 
 # prime number generator
+# usage: $> ruby gather_prime_numbers.rb <start_index> <end_index>
 
 @args = ARGV if !ARGV.nil?
-@start = @args[0].to_i
-@limit = @args[1].to_i
+@start = @args[0].to_i if !@args.nil?
+@limit = @args[1].to_i if !@args.nil?
 
 puts "Start #{@start.to_s} - LIMIT #{@limit.to_s}"
 
