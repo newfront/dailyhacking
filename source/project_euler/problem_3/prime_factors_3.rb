@@ -49,6 +49,6 @@ def run_til_none_left_to_run(test_number, start_set)
   puts "#{@count.to_s} Wave (TEST_NUMBER: #{test_number.to_s}\nRESULTS SET: #{r['set'].inspect}\nPrime Factors: #{r['prime_factors'].inspect}"
 end
 
-#@cap = 13195
-@cap = 600851475143
+@cap = 13195
+#@cap = 600851475143
 run_til_none_left_to_run(@cap,@primes)
