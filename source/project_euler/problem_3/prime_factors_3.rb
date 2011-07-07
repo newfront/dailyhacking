@@ -11,7 +11,7 @@ end
 @primes.collect! do |n|
   n.gsub(/ /,'').to_i
 end
-puts @primes.inspect
+#puts @primes.inspect
 @count = 0
 
 # grab results and return to calling method
@@ -41,8 +41,17 @@ end
 # used to display information on each set of tests against the target composite number
 def run_til_none_left_to_run(test_number, start_set)
   r = run_recursive_loop { divide_and_find_prime_results(test_number,start_set) }
-  puts "#{@count.to_s} Wave \n(TEST_NUMBER: #{test_number.to_s}\nRESULTS SET: #{r['set'].inspect}\nPrime Factors: #{r['prime_factors'].inspect}"
+  puts "#{@count.to_s} Wave TEST_NUMBER: #{test_number.to_s}\nRESULTS SET: #{r['set'].inspect}\nPrime Factors: #{r['prime_factors'].inspect}"
 end
 
 @cap = 600851475143 #13195
-run_til_none_left_to_run(@cap,@primes)
+
+def benchmark(&block)
+  start_benchmark = Time.now
+  yield
+  end_benchmark = Time.now
+  t = end_benchmark - start_benchmark
+  puts "TOTAL TIME: #{t.to_s}"
+end
+
+benchmark{ run_til_none_left_to_run(@cap,@primes) }
