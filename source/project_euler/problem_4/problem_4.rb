@@ -9,8 +9,8 @@
 def calculate_numbers(start,finish,&block)
 	start.upto(finish) do |n| 
 	  start.upto(finish) do |test|
-	    tmp = n*test
-	    block.call(tmp)
+	    #tmp = n*test
+	    block.call(n*test)
 	  end
 	end
 end
@@ -21,14 +21,7 @@ def is_palindromic? num
   begin
     length = num.to_s.length
     half = length.to_f/2.to_f
-    if length == 2
-      return num if num[0] == num[1]
-    else
-      num_as_array = num.to_s.scan(/./)
-      first_half = num_as_array.join[0,half]
-      second_half = num_as_array.join.reverse[0,half]
-      return num if first_half == second_half
-    end
+    return num if num.to_s[0,half] == num.to_s.reverse[0,half]
   rescue
     puts "error on block...."
   end
@@ -38,9 +31,7 @@ end
 #  push number from each result to block
 calculate_numbers(100,999) do |n|
   # push palindrom to set, ensure one of each number, should only be one...
-  if (is_palindromic? n) && (!@palindromic.include? n)
-    @palindromic << n
-  end
+  @palindromic << n if (is_palindromic? n) && (!@palindromic.include? n)
 end
 
 # show results, sorted from smallest to largest
