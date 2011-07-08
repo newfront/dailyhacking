@@ -2,7 +2,7 @@
 
 # prime number generator
 # usage: $> ruby gather_prime_numbers.rb <start_index> <end_index>
-
+raise "Usage is > ruby gather_prime_number.rb <start_index> <end_index> as Integers" unless !ARGV[0].empty?
 @args = ARGV if !ARGV.nil?
 @start = @args[0].to_i if !@args.nil?
 @limit = @args[1].to_i if !@args.nil?
@@ -10,12 +10,13 @@
 puts "Start #{@start.to_s} - LIMIT #{@limit.to_s}"
 
 @primes = []
-
+@total_time = 0
 def benchmark(&block)
   start_benchmark = Time.now
   yield
   end_benchmark = Time.now
   t = end_benchmark - start_benchmark
+  @total_time += t
   puts "\nBenchmark: %f" % t
 end
 
@@ -52,19 +53,12 @@ def check_for_prime(current,total)
 
   # prime numbers are only divisible by 1 and themselves, so @divisible_by_none_other.should == true
   if divisible_by_self == true && divisible_by_one == true && divisible_by_none_other == true
-    #@primes << current
     return current
   else
     return nil
   end
   
 end
-
-# get primes
-#primes = gather_primes(50,500,true)
-#puts "\nPRIMES:\n#{@primes.inspect}"
-
-#@cap = 600851475143
 
 if !@limit.nil?
   @cap = @limit
@@ -90,6 +84,7 @@ begin
     puts "Current: #{@current.to_s}\n"
     puts "Primes: #{@primes.size.to_s}\n"
     benchmark { gather_primes(last,@current,false) }
+    puts "Operation Time: #{@total_time.to_s}"
     puts "Ran #{@threads} Times"
   end
 end while @current < @cap
