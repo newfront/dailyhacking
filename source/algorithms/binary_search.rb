@@ -12,16 +12,18 @@ end
 
 $loops = 0
 def binary_search(range,value)
-  $loops += 1
   # binary search algorithm
   # chop range in half, test if value is greater, less then chunk[0], chunk[1]
   # continue test on chunk that passes condition, until 2 values left
+  $loops += 1 # adds about .001 more time to algorithm
   
-  @range = range.each.map{|val| val}
+  #@range = range.each.map{|val| val} # adds about 50% more time to algorithm
+  @range = range.to_a
   
   puts "Size of range: #{@range.size.to_s}"
   
   unless @range.size <= 2
+    
     # chop range in half
     # test if value is in first or second chunk
     ranges = [] 
@@ -42,7 +44,8 @@ def binary_search(range,value)
       @upper = ranges[0].last
       @lower = ranges[0].first
     end
-     puts "Check Range of #{@lower.to_s} .. #{@upper.to_s}\nLoop #{$loop.to_s}"
+     puts "Check Range of #{@lower.to_s} .. #{@upper.to_s}"
+     puts "Loop #{$loops.to_s}"
     # recursivly check against new parameters
     binary_search((Range.new(@lower,@upper)),value)
     
