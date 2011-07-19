@@ -5,7 +5,8 @@
 def benchmark(&block)
   
   t_start = Time.now
-  block.call
+  result = block.call
+  puts "Result: #{result.to_s}"
   t_end = Time.now
   
   puts "Total Time: #{(t_end.to_f - t_start.to_f)} seconds"
@@ -34,11 +35,11 @@ def linear_search(range,value)
     # return true if we have a match
     
     unless comparison != value
-      $tests += 1
+      #$tests += 1
       #puts "Total Tests: #{$tests.to_s}. matched: #{comparison.to_s} == #{value.to_s}"
       return true
     else
-      $tests += 1
+      #$tests += 1
       #puts "Total Tests: #{$tests.to_s}. No Match. test again"
     end 
     
@@ -48,4 +49,5 @@ def linear_search(range,value)
   
 end
 
-benchmark { linear_search((0..2000000),2000000) }
+#benchmark { linear_search((0..2000000),2000000) }
+benchmark { linear_search(Range.new(0,2000000),200000) }
