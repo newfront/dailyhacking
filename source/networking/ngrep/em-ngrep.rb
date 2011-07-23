@@ -7,10 +7,10 @@ require 'pp'
 
 
 def format_command
-  @cmd = "ngrep "
+  @cmd = "ngrep -q -W byline "
   @cmd << "-d #{@options['device']}" unless !@options.has_key?("device")
   @cmd << " port #{@options['port']}" unless !@options.has_key?("port")
-  @cmd << " #{@options['filter']}" unless !@options.has_key?("filter")
+  @cmd << " -i '#{@options['filter']}'" unless !@options.has_key?("filter")
   return @cmd.to_s
 end
 
@@ -52,12 +52,12 @@ module SipHandler
   
   # parse message chunks
   def parse_data data
-    
+    puts data.inspect
     tmp = data
     bytes = tmp.bytesize
-    puts bytes.to_s
+    #puts bytes.to_s
     if bytes.to_i > 200
-      pp tmp
+      #pp tmp
       # parse header
       packet_pattern = /([U|T])([ 0-9.]*)(:)(\d*)(\W->\W)([ 0-9.]*)(:)(\d*)/i
       infos = tmp.match(packet_pattern).to_a
@@ -68,11 +68,11 @@ module SipHandler
       message << "#{infos[2].to_s.strip}:#{infos[4].to_s.strip}\n"
       infos[1] == "U" ? message << "To:" : message << "From:"
       message << "#{infos[6].to_s.strip}:#{infos[8].to_s.strip}\n\n"
-      puts message
+      @callback.call(message)
       
       # parse out message body
-      body = tmp.match(/\\n/).to_a
-      pp body
+      #body = tmp.match(/\\n/)
+      #pp body
       
       # Can stop event loop if conditions are met
       #EventMachine::stop_event_loop
@@ -89,6 +89,6 @@ module SipHandler
 end
 
 EventMachine.run{
-  #cb = EventMachine.callback
+  @callback = EventMachine.Callback{|response| pp response}
   EventMachine.popen(format_command, SipHandler)
 }
