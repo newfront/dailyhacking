@@ -1,0 +1,306 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9C1332DD13E2546900BFB678 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C1332DC13E2546900BFB678 /* Cocoa.framework */; };
+		9C1332E713E2546900BFB678 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C1332E513E2546900BFB678 /* InfoPlist.strings */; };
+		9C1332EA13E2546900BFB678 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1332E913E2546900BFB678 /* main.m */; };
+		9C1332ED13E2546900BFB678 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9C1332EB13E2546900BFB678 /* Credits.rtf */; };
+		9C1332F013E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1332EF13E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.m */; };
+		9C1332F313E2546A00BFB678 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C1332F113E2546A00BFB678 /* MainMenu.xib */; };
+		9C1332FA13E2548500BFB678 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1332F913E2548500BFB678 /* AsyncUdpSocket.m */; };
+		9C1332FD13E2549600BFB678 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1332FC13E2549600BFB678 /* AsyncSocket.m */; };
+		9C13330113E254C800BFB678 /* Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C13330013E254C800BFB678 /* Connector.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9C1332D813E2546900BFB678 /* CocoaToRubyEventMachine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaToRubyEventMachine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C1332DC13E2546900BFB678 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		9C1332DF13E2546900BFB678 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		9C1332E013E2546900BFB678 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9C1332E113E2546900BFB678 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9C1332E413E2546900BFB678 /* CocoaToRubyEventMachine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CocoaToRubyEventMachine-Info.plist"; sourceTree = "<group>"; };
+		9C1332E613E2546900BFB678 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9C1332E813E2546900BFB678 /* CocoaToRubyEventMachine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CocoaToRubyEventMachine-Prefix.pch"; sourceTree = "<group>"; };
+		9C1332E913E2546900BFB678 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9C1332EC13E2546900BFB678 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		9C1332EE13E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocoaToRubyEventMachineAppDelegate.h; sourceTree = "<group>"; };
+		9C1332EF13E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocoaToRubyEventMachineAppDelegate.m; sourceTree = "<group>"; };
+		9C1332F213E2546A00BFB678 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		9C1332F913E2548500BFB678 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		9C1332FB13E2549000BFB678 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		9C1332FC13E2549600BFB678 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		9C1332FE13E2549C00BFB678 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		9C1332FF13E254C800BFB678 /* Connector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connector.h; sourceTree = "<group>"; };
+		9C13330013E254C800BFB678 /* Connector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connector.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9C1332D513E2546900BFB678 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C1332DD13E2546900BFB678 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9C1332CD13E2546900BFB678 = {
+			isa = PBXGroup;
+			children = (
+				9C1332E213E2546900BFB678 /* CocoaToRubyEventMachine */,
+				9C1332DB13E2546900BFB678 /* Frameworks */,
+				9C1332D913E2546900BFB678 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9C1332D913E2546900BFB678 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9C1332D813E2546900BFB678 /* CocoaToRubyEventMachine.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9C1332DB13E2546900BFB678 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C1332DC13E2546900BFB678 /* Cocoa.framework */,
+				9C1332DE13E2546900BFB678 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9C1332DE13E2546900BFB678 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C1332DF13E2546900BFB678 /* AppKit.framework */,
+				9C1332E013E2546900BFB678 /* CoreData.framework */,
+				9C1332E113E2546900BFB678 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		9C1332E213E2546900BFB678 /* CocoaToRubyEventMachine */ = {
+			isa = PBXGroup;
+			children = (
+				9C1332FE13E2549C00BFB678 /* AsyncSocket.h */,
+				9C1332FC13E2549600BFB678 /* AsyncSocket.m */,
+				9C1332FB13E2549000BFB678 /* AsyncUdpSocket.h */,
+				9C1332F913E2548500BFB678 /* AsyncUdpSocket.m */,
+				9C1332EE13E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.h */,
+				9C1332EF13E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.m */,
+				9C1332F113E2546A00BFB678 /* MainMenu.xib */,
+				9C1332E313E2546900BFB678 /* Supporting Files */,
+				9C1332FF13E254C800BFB678 /* Connector.h */,
+				9C13330013E254C800BFB678 /* Connector.m */,
+			);
+			path = CocoaToRubyEventMachine;
+			sourceTree = "<group>";
+		};
+		9C1332E313E2546900BFB678 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9C1332E413E2546900BFB678 /* CocoaToRubyEventMachine-Info.plist */,
+				9C1332E513E2546900BFB678 /* InfoPlist.strings */,
+				9C1332E813E2546900BFB678 /* CocoaToRubyEventMachine-Prefix.pch */,
+				9C1332E913E2546900BFB678 /* main.m */,
+				9C1332EB13E2546900BFB678 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9C1332D713E2546900BFB678 /* CocoaToRubyEventMachine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9C1332F613E2546A00BFB678 /* Build configuration list for PBXNativeTarget "CocoaToRubyEventMachine" */;
+			buildPhases = (
+				9C1332D413E2546900BFB678 /* Sources */,
+				9C1332D513E2546900BFB678 /* Frameworks */,
+				9C1332D613E2546900BFB678 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CocoaToRubyEventMachine;
+			productName = CocoaToRubyEventMachine;
+			productReference = 9C1332D813E2546900BFB678 /* CocoaToRubyEventMachine.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9C1332CF13E2546900BFB678 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Convo Communications";
+			};
+			buildConfigurationList = 9C1332D213E2546900BFB678 /* Build configuration list for PBXProject "CocoaToRubyEventMachine" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9C1332CD13E2546900BFB678;
+			productRefGroup = 9C1332D913E2546900BFB678 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9C1332D713E2546900BFB678 /* CocoaToRubyEventMachine */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9C1332D613E2546900BFB678 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C1332E713E2546900BFB678 /* InfoPlist.strings in Resources */,
+				9C1332ED13E2546900BFB678 /* Credits.rtf in Resources */,
+				9C1332F313E2546A00BFB678 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9C1332D413E2546900BFB678 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C1332EA13E2546900BFB678 /* main.m in Sources */,
+				9C1332F013E2546900BFB678 /* CocoaToRubyEventMachineAppDelegate.m in Sources */,
+				9C1332FA13E2548500BFB678 /* AsyncUdpSocket.m in Sources */,
+				9C1332FD13E2549600BFB678 /* AsyncSocket.m in Sources */,
+				9C13330113E254C800BFB678 /* Connector.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9C1332E513E2546900BFB678 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9C1332E613E2546900BFB678 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9C1332EB13E2546900BFB678 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9C1332EC13E2546900BFB678 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		9C1332F113E2546A00BFB678 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9C1332F213E2546A00BFB678 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9C1332F413E2546A00BFB678 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9C1332F513E2546A00BFB678 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9C1332F713E2546A00BFB678 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CocoaToRubyEventMachine/CocoaToRubyEventMachine-Prefix.pch";
+				INFOPLIST_FILE = "CocoaToRubyEventMachine/CocoaToRubyEventMachine-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9C1332F813E2546A00BFB678 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CocoaToRubyEventMachine/CocoaToRubyEventMachine-Prefix.pch";
+				INFOPLIST_FILE = "CocoaToRubyEventMachine/CocoaToRubyEventMachine-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9C1332D213E2546900BFB678 /* Build configuration list for PBXProject "CocoaToRubyEventMachine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C1332F413E2546A00BFB678 /* Debug */,
+				9C1332F513E2546A00BFB678 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9C1332F613E2546A00BFB678 /* Build configuration list for PBXNativeTarget "CocoaToRubyEventMachine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C1332F713E2546A00BFB678 /* Debug */,
+				9C1332F813E2546A00BFB678 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9C1332CF13E2546900BFB678 /* Project object */;
+}
