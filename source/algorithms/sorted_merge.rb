@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-@list = [1,2,5,7,9,25]
+@list = [1,2,4,5,7,9,25]
 @list2 = [4,6,8,11,29]
 @result = []
 
@@ -33,6 +33,8 @@ def merge(list,list2)
 	  else
 	    # results are the same
 	    @result << list[0] # don't worry about the second, it is a repeat
+	    list2.slice!(0) if list2.size > 1
+	    list.slice!(0) if list.size > 1
 	  end
 	  
 	  # remove compared elements
