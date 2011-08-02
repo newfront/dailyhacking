@@ -37,7 +37,7 @@ def merge(list,list2)
 	    list.slice!(0) if list.size > 1 # remove compared elements
 	  end
 	  
-    # recursively run until list.size || list2.size == 1
+    # recursively run until list.size == 1 && list2.size == 1
     puts list.inspect
     puts list2.inspect
     merge(list,list2)
