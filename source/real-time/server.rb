@@ -44,8 +44,8 @@ $urls = {}
 ##############################
 
 # open up stream to Twitter (pipe)
-WAIT_TIME_DEAFULT = 240
-@wait_time = 240 # initially start at 4 minutes
+WAIT_TIME_DEAFULT = 60
+@wait_time = 60 # initially start at 4 minutes
 
 def stream_request
   puts "==================================\n\n"
@@ -81,9 +81,9 @@ def stream_request
     
     puts "connection closed by Twitter. Reconnect"
     
-    if http.response_header.status == "420"
+    if http.response_header.status == 420
       @wait_time += 60
-    elsif http.response_header.status == "200"
+    elsif http.response_header.status == 200
       @wait_time = 10
     else
       @wait_time = WAIT_TIME_DEAFULT
