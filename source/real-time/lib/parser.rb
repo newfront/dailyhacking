@@ -121,7 +121,7 @@ module Parser
   
     list.each{|word|
       word = word.gsub("#",'').gsub("$",'') # strip out hash tag or money
-      unless word.length < 4
+      unless word.length < 2
         #word = word.downcase
         block = false
         # check if word ends in exclimation point
@@ -173,7 +173,8 @@ module Parser
     # google image seach api
     puts "Search For: #{importants[0..1].join(" ")}"
     puts "Called Out from Tweet: #{called_out.inspect}"
-    return {:i_words => importants, :search => importants[0..1].join(" "), :call_outs => called_out}
+    important = importants[0..importants.size/2].join(" ")
+    return {:i_words => importants, :search => important, :call_outs => called_out}
   end
 
   def self.tweet_reduce
