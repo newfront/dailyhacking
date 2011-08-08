@@ -100,8 +100,8 @@ def stream_request
   
   @request_url = 'http://stream.twitter.com/1/statuses/filter.json'
   #@request_url = 'http://stream.twitter.com/1/statuses/sample.json'
-  http = EventMachine::HttpRequest.new(@request_url).get :query => {"track"=>"AOL,aol,Editions"}, :head => {'Authorization'=> ["newfront","Turtlepizza"] }
-  
+  http = EventMachine::HttpRequest.new(@request_url).post :head => {'Authorization'=> ["newfront","Turtlepizza"],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=AOL,editions,ipad,america,online,techcrunch,HuffingtonPost"
+  #puts http.inspect
   buffer = ""
   
   http.stream do |chunk|
@@ -112,10 +112,10 @@ def stream_request
     end
   end
   
-  http.errback {
-    puts "error on that one. try again"
+  #http.errback {
+  #  puts "error on that one. try again"
   #  stream_request
-  }
+  #}
   
 end
 
