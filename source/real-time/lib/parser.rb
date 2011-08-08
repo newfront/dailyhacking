@@ -121,7 +121,7 @@ module Parser
   
     list.each{|word|
       word = word.gsub("#",'').gsub("$",'') # strip out hash tag or money
-      unless word.length < 3
+      unless word.length < 4
         #word = word.downcase
         block = false
         # check if word ends in exclimation point
@@ -206,7 +206,7 @@ module Parser
         
         # grab the bigger words from quoted text
         begin
-          quoted_terms_important = parsed_tweet[:quoted].split(" ").map {|word| word.length > 5 ? word : ""}.join(" ")
+          quoted_terms_important = parsed_tweet[:quoted].split(" ").map {|word| word.length > 5 ? word : " "}.join(" ")
         rescue
           puts "Couldn't parse quote"
         end

@@ -82,11 +82,14 @@ def stream_request
     puts "connection closed by Twitter. Reconnect"
     
     if http.response_header.status == "420"
-      @wait_time += (60*2)
+      @wait_time += 60
+    elsif http.response_header.status == "200"
+      @wait_time = 10
     else
       @wait_time = WAIT_TIME_DEAFULT
     end
     
+    puts "Next run in #{@wait_time.to_s}"
     EventMachine::Timer.new(@wait_time) do
       stream_request
     end
