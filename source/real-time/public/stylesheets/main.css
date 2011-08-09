@@ -84,7 +84,12 @@ h1,h2,h3,h4,h5,h6,p,div,ul,li,ol,dl,dd,dt,legend,label,input,button,form,img
   margin-right:5px;
 }
 
-.tweet:last-child
+.tweet:last-child:after
+{
+  clear:both;
+}
+
+.clearfix
 {
   clear:both;
 }
@@ -100,3 +105,8 @@ h1,h2,h3,h4,h5,h6,p,div,ul,li,ol,dl,dd,dt,legend,label,input,button,form,img
   float:left;
 }
 
+.tags_and_importants
+{
+  display:block;
+  background:#c9c9c9;
+}

@@ -5,7 +5,7 @@ common = "via,CC,'tis,'twas,a,able,about,across,after,ain't,all,almost,also,am,a
 $common_words = common.split(/\,/)
 
 $connecting_words = ["to","from","last","tell","told","of","on","during","-","&","and"]
-$punctuation = [".","&","!","=","|","?","-"]
+$punctuation = [".","&","!","=","|","?","-",'...']
 $possesive_words = ["my","mine","his","hers","your"]
 $twitter_specific = ["via","RT","CC"]
 
