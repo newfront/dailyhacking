@@ -21,9 +21,19 @@ module Parser
           @urls << response["unescapedUrl"]
         }
         
+        
+        # form to send to web socket
+        data= Hashie::Mash.new
+        data.from = tweet['user']['screen_name']
+        data.tweet = tweet['text']
         if @urls.size > 1
           puts "image for tweet: #{@urls[0].to_s}"
+          data.image = @urls[0].to_s
+        else
+          data.image = ""
         end
+        data.tags = search_terms.join(" ")
+        data.important = search_terms[0]
         
         search = nil
         
@@ -36,6 +46,14 @@ module Parser
     rescue NoMethodError => e
       puts "Errror: #{e.inspect}"
       #return
+    end
+    
+    begin
+      #jdata = data.to_json
+      html = "<div class='tweet'><img src='#{data.image}' width='46' height='46' class='t_img'/><span class='from_user'>@#{data.from.to_s}</span><span class='tweet_data'>#{data.tweet.to_s}</span><span class='tags'> ( #{data.tags.to_s} ) </span><span class='important'><strong>#{data.important.to_s}</strong></span></div>"
+      $new_messages.call(html)
+    rescue
+      puts "can't use eventmachine callback"
     end
     
     return unless tweet['text']

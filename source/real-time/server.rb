@@ -15,6 +15,10 @@ require 'lib/connection'
 # Grab Model Files
 require 'model/tweet'
 
+# add sinatra web server
+require 'sinatra/base'
+require 'erb'
+
 @params = ARGV # grab username and password (twitter username/password) from command line
 
 $user = {
@@ -87,6 +91,7 @@ def stream_request
     
     if http.response_header.status == 420
       @wait_time += 60
+      $new_messages.call("Easy there, Turbo. Too many requests recently. Enhance your calm. (Have to wait #{@wait_time.to_s})")
     elsif http.response_header.status == 200
       @wait_time = 20
     else
@@ -103,6 +108,7 @@ def stream_request
   # Error connecting, try again
   http.errback {
     puts "error on that one. try again"
+    $new_messages.call("Error on HTTP Stream. Reconnecting")
     EventMachine::Timer.new(20) do
       stream_request
     end
@@ -112,10 +118,78 @@ end
 
 
 EM.run do
+  
+  $ws_connections = []
+  
   puts "Twitter Streaming in 3 seconds"
   Connection::MongoDB::connect($db[:name])
   
+  $new_messages = EM.Callback{|msg| 
+    puts (msg) 
+    puts $ws_connections.size.to_s
+    unless $ws_connections.size == 0
+      $ws_connections.each {|connection|
+        connection.send(msg)
+      }
+    end
+  }
+  
+  # Setup Server Here
+  # bind via websocket
+  # send data back to users
+  
+  
+  
+  EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 9000) do |ws|
+    
+    ws.onopen {
+      puts "WebSocket connection open"
+      # publish message to the client
+      ws.send "connected"
+      @user = ws
+      $ws_connections << ws
+    }
+    
+    ws.onclose { 
+      puts "Connection closed" 
+      $ws_connections.delete(ws)
+    }
+    
+    ws.onmessage { |msg|
+      puts "Recieved message: #{msg}"
+      puts msg.inspect
+      #ws.send "#{msg}"
+    }
+    
+  end
+  
+  class App < Sinatra::Base
+    use Rack::MethodOverride
+    
+    # global
+    
+    #set :sessions, true
+    #set :logging, true
+    set :public, File.dirname(__FILE__) + '/public'
+    #set :erb
+    
+    get '/' do
+      @title = "Live Stream"
+      @year = Time.new.year
+      erb :index
+    end
+  end
+  
+  App.run!({:port => 3000})
+  
+  
+  
   stream_request
+  #n = 0
+  #timer = EventMachine::PeriodicTimer.new(5) do
+  #   $new_messages.call("running from eventmachine")
+  #   timer.cancel if (n+=1) > 5
+  #end
   
 end
 

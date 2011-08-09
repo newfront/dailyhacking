@@ -57,10 +57,12 @@ class WordParser
       parse_words(list[0+1,list.size],true)
     end
   end
-
+  
+  @starting_weight = 0
+  
   def test_word(word,important=false,params={})
     weights = 0
-    weights += 1 if important
+    weights += @starting_weight if important
     next_word_check = false
     possesive = false
     connecting = false
@@ -68,6 +70,8 @@ class WordParser
     common = false
     punctuation = false
     url = false
+    
+    @starting_weight = 0 unless important
     
     word = word.gsub(/[?!]*/,'')
   
@@ -79,6 +83,7 @@ class WordParser
       # if it is connecting, next word may be valuable
       #puts "word is a connecting word: #{word}"
       next_word_check = true
+      @starting_weight += 1
       connecting = true
     end
   
@@ -89,6 +94,7 @@ class WordParser
     if is_possesive? word
       #puts "word is possesive. next object may be important"
       next_word_check = true
+      @starting_weight += 1
       possesive = true
     end
   
@@ -123,6 +129,13 @@ class WordParser
       puts "is twitter specific: #{word}"
       weights = 0
       next_word_check = true
+      @starting_weight += 1
+    end
+    
+    if is_search_word? word
+      weights = 0
+      next_word_check = true
+      @starting_weight += 1
     end
     
     weights += 1 if is_lesser_common? word
@@ -155,6 +168,12 @@ class WordParser
 
   def is_camel_case?(word)
     return true if word[0,1] == word[0,1].upcase
+    return false
+  end
+  
+  def is_search_word? word
+    return true if $search_words.include? word
+    return true if $search_words.include? word.downcase
     return false
   end
 

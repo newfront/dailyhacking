@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf8">
+  <title>Twitter Stream</title>
+  <link href="/stylesheets/main.css" rel="stylesheet"/>
+  <script type="text/javascript" src="/javascripts/jquery.js"></script>
+  <script type="text/javascript" src="/javascripts/swfobject.js"></script>
+  <script type="text/javascript" src="/javascripts/FABridge.js"></script>
+  <script type="text/javascript" src="/javascripts/web_socket.js"></script>
+  <script type="text/javascript" src="/javascripts/main.js"></script>
+</head>
+<body>
+  <header class="sexy">
+    <hgroup>
+      <h1>Twitter Live Stream</a></h1>
+      <h2></h2>
+    </hgroup>
+  </header>
+  
+  <div id="main">
+    <%= yield %>
+  </div>
+  
+  <footer class="good_for_you">
+    <p>&copy; Scott Haines <%= @year %></p>
+  </footer>
+</body>
+</html>
