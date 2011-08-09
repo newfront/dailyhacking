@@ -1,7 +1,7 @@
 var limit = 10;
 var current = 0;
-var server = '50.57.78.206:9000'
-//var server = '127.0.0.1:9000'
+var server = '127.0.0.1:9000'
+
 $(document).ready(function(){
   
   function debug(str){
