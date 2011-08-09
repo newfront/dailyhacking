@@ -4,7 +4,7 @@ $: << File.join(File.dirname(__FILE__), "")
 $: << $APP_ROOT = File.expand_path(File.dirname(__FILE__))
 
 # grab dependencies
-requires = ['em-websocket','cgi','em-http-request','sinatra/base','haml','thin','logger','hashie','mechanize','socket','pp','json','yaml','mongoid']
+requires = ['em-websocket','cgi','em-http-request','sinatra/base','thin','logger','hashie','mechanize','socket','pp','json']
 requires.each {|dependency| require dependency}
 
 # include our parser lib and connection lib
@@ -21,9 +21,10 @@ require 'erb'
 
 @params = ARGV # grab username and password (twitter username/password) from command line
 
+# NOTE: you have to add your twitter username and password, or this won't run
 $user = {
-  :username => @params[0],
-  :password => @params[1],
+  :username => @params[0].nil? ? "<insert_twitter_username>" : @params[0],
+  :password => @params[1].nil? ? "<insert_twitter_password>" : @params[1],
   :google_dev_key => "ABQIAAAAqj2FkdNbZi_ZKy1fY_HdjxQsPFBHlSdy9MSZLoC4ErdaOPqPGhSsI3FcfI7uPySPy7zgD5eo88rAWw",
   :google_dev_url => "http://gravitateapp.com"
 }
@@ -31,6 +32,10 @@ $user = {
 $db = {
   :name => "tweetdata"
 }
+
+@host = "50.57.78.206"
+#@host = '127.0.0.1'
+@port = 9000
 
 # open up stream to Twitter (pipe)
 WAIT_TIME_DEAFULT = 10
@@ -41,8 +46,10 @@ def stream_request
   puts "Start Grabing Info from the Stream"
   
   @request_url = 'http://stream.twitter.com/1/statuses/filter.json'
-  #@request_url = 'http://stream.twitter.com/1/statuses/sample.json'
-  http = EventMachine::HttpRequest.new(@request_url,:connection_timeout => 240, :inactivity_timeout => 9000).post :head => {'Authorization'=> [$user[:username],$user[:password]],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=AOL,Editions by AOL,'america online',aim chat,webaim,joystiq,'AOL news'", :keepalive => true, :timeout => 0
+  
+  #(Note) the more values in the track= the less things actually show up
+  
+  http = EventMachine::HttpRequest.new(@request_url).post :head => {'Authorization'=> [$user[:username],$user[:password]],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=AOL,Editions,webaim,joystiq,myAOL,Messenger"
   #puts http.inspect
   buffer = ""
   
@@ -58,7 +65,7 @@ def stream_request
   http.stream do |chunk|
     buffer += chunk
     while line = buffer.slice!(/.+\r?\n/)
-      Parser.new(line)
+      Parser.new(line) unless line.bytesize < 10
     end
     
   end
@@ -103,7 +110,7 @@ EM.run do
   $ws_connections = []
   
   puts "Twitter Streaming in 3 seconds"
-  Connection::MongoDB::connect($db[:name])
+  #Connection::MongoDB::connect($db[:name])
   
   $new_messages = EM.Callback{|msg| 
     puts (msg) 
@@ -119,9 +126,10 @@ EM.run do
   # bind via websocket
   # send data back to users
   
+  # initiate polling on streaming twitter api
+  stream_request
   
-  
-  EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 9000) do |ws|
+  EventMachine::WebSocket.start(:host => @host, :port => @port) do |ws|
     
     ws.onopen {
       puts "WebSocket connection open"
@@ -146,9 +154,10 @@ EM.run do
   
   class App < Sinatra::Base
     use Rack::MethodOverride
-    
+    set :port => 3000
+    set :host => 'localhost'
     #set :sessions, true
-    set :logging, true
+    #set :logging, true
     set :public, File.dirname(__FILE__) + '/public'
     
     get '/' do
@@ -159,10 +168,7 @@ EM.run do
   end
   
   App.run!({:port => 3000})
-  
-  
-  
-  stream_request
+
   #n = 0
   #timer = EventMachine::PeriodicTimer.new(5) do
   #   $new_messages.call("running from eventmachine")

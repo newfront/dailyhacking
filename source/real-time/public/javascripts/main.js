@@ -1,6 +1,7 @@
 var limit = 10;
 var current = 0;
-
+var server = '50.57.78.206:9000'
+//var server = '127.0.0.1:9000'
 $(document).ready(function(){
   
   function debug(str){
@@ -14,7 +15,7 @@ $(document).ready(function(){
   var data = {username:'rand',name:'Scott Haines'};
   var payload = JSON.stringify(data);
   
-  ws_url = "ws://127.0.0.1:9000/"+data.username
+  ws_url = "ws://"+server+"/"+data.username
   
   console.log(ws_url)
   
@@ -23,7 +24,7 @@ $(document).ready(function(){
   http.onmessage = function(evt) { 
     console.log(evt)
     $("#loading").fadeOut();
-    $("#msg").append(evt.data);
+    $("#msg").prepend(evt.data);
   };
   
   http.onclose = function() { 
