@@ -1,0 +1,112 @@
+body
+{
+  margin:0;
+  padding:0;
+  font-size:1em;
+  font-family: arial,sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6,p,div,ul,li,ol,dl,dd,dt,legend,label,input,button,form,img
+{
+  margin:0;
+  padding:0;
+}
+
+#main
+{
+  border:1px solid #cccccc;
+  margin: 10px;
+  padding: 10px;
+}
+
+.sexy
+{
+  -webkit-box-shadow: rgba(0, 0, 0, 0.246094) 0px 1px 3px, rgba(0, 0, 0, 0.0976562) 0px -1px 0px inset;
+  background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.45, rgb(21,54,94)),
+      color-stop(0.73, rgb(63,107,161)),
+      color-stop(0.87, rgb(91,126,194))
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      rgb(21,54,94) 45%,
+      rgb(63,107,161) 73%,
+      rgb(91,126,194) 87%
+  );
+  padding:20px 0;
+}
+
+.loading
+{
+  background: transparent url("../images/ajax-loader.gif") center center;
+  height: 31px;
+  width: 31px;
+}
+
+.sexy h1
+{
+  font-size:100%;
+  color: #fbfbfb;
+  margin-left:20px;
+  text-shadow: 3px 3px 5px #000;
+}
+
+.good_for_you
+{
+  background: #2b2b2b;
+  padding: 10px;
+}
+
+.good_for_you p
+{
+  color: #5b4b4b;
+  margin-left:20px;
+}
+
+.tweet
+{
+  padding: 10px;
+  border: 1px solid #cccccc;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.from_user
+{
+  color: rgb(91,126,194);
+  font-size:90%;
+  margin-right:5px;
+}
+
+.tweet:last-child:after
+{
+  clear:both;
+}
+
+.clearfix
+{
+  clear:both;
+}
+
+.t_img
+{
+  padding:10px;
+  background: #ffffff;
+  border:1px solid #6b6b6b;
+  width:46px;
+  height:46px;
+  margin:10px;
+  float:left;
+}
+
+.tags_and_importants
+{
+  display:block;
+  background:#c9c9c9;
+}
