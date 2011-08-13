@@ -48,7 +48,7 @@ def stream_request
   
   #(Note) the more values in the track= the less things actually show up
   
-  http = EventMachine::HttpRequest.new(@request_url).post :head => {'Authorization'=> [$user[:username],$user[:password]],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=AOL,Editions,webaim,joystiq,myAOL,Messenger"
+  http = EventMachine::HttpRequest.new(@request_url).post :head => {'Authorization'=> [$user[:username],$user[:password]],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=Editions,webaim,joystiq,myAOL"
   #puts http.inspect
   buffer = ""
   
