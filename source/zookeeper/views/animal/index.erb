@@ -1,0 +1,25 @@
+<% unless @error.nil? %>
+<div class="notice">
+  <p><span class="err"><%= @error[:type] %></span></p>
+</div>
+<% end %>
+<form id="form_data" class="simple_form" action="/animal/create" method="post" enctype="multipart/form-data">
+  <div>
+  <label for="classification">Classification:</label>
+  <select name="classification"> 
+  <% @classifications.each do |classification| %> 
+    <option value="<%= classification[:id] %>" name="<%= classification[:type] %>"><%= classification[:type] %></option>
+  <% end %>
+  </select>
+  </div>
+  <div><label for="name">Name:</label><input type="text" name="name" id="name" value=""/></div>
+  <div>
+  <label for="zoo">Zoo:</label> 
+  <select name="zoo"> 
+  <% @zoos.each do |zoo| %>
+    <option value="<%= zoo[:id] %>" name="<%= zoo[:name] %>"><%= zoo[:name] %></option>
+  <% end %>
+  </select>
+  </div>
+  <div><input type="submit" value="Create Animal"/></div>
+</form>

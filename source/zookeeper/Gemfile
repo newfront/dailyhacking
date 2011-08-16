@@ -1,0 +1,11 @@
+source :rubygems
+gem "eventmachine"
+gem "em-http-request"
+gem "sinatra"
+gem "data_mapper"
+gem "dm-mysql-adapter"
+gem "dm-validations"
+gem "data_objects"
+gem "hashie"
+gem "json"
+gem "thin"

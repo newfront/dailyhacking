@@ -1,0 +1,10 @@
+<article id="zoo">
+  <section class="basic">
+    <p>You <%= @num_animals > 0 ? "Zoos are currently holding <strong>#{@num_animals.to_s}</strong> Animals" : "Zoo is currently holding <strong>#{@num_animals.to_s}</strong> Animal" %>.</p>
+  </section>
+  <section>
+    <ul>
+      <li><a href="/zoo/list">Show <%= @num_animals > 0 ? "Zoos" : "Zoo" %></a></li>
+    </ul>
+  </section>
+</article>

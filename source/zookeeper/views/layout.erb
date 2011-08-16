@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf8">
+  <title>ZooKeeper</title>
+  <link href="/stylesheets/main.css" rel="stylesheet"/>
+</head>
+<body>
+  
+  <header>
+    <hgroup>
+      <h1>My Zoo</a></h1>
+      <h2></h2>
+    </hgroup>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/zoos/list">Zoo</a></li>
+      <li><a href="/animals/list">Animals</a></li>
+    </ul>
+  </nav>
+  
+  <div id="main">
+    <%= yield %>
+  </div>
+  
+  <footer class="default">
+    <p>&copy; Scott Haines <%= @year %></p>
+  </footer>
+  
+</body>
+</html>
