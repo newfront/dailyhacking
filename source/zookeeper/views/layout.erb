@@ -22,6 +22,16 @@
   </nav>
   
   <div id="main">
+    <% unless @error.nil? %>
+    <div class="notice">
+      <p><span class="err"><%= @error[:type] %></span></p>
+    </div>
+    <% end %>
+    <% unless @notice.nil? %>
+    <div class="notice">
+      <p><span class="success"><%= @notice[:type] %>, <%= @notice[:details] %></span></p>
+    </div>
+    <% end %>
     <%= yield %>
   </div>
   

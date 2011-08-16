@@ -1,13 +1,3 @@
-<% unless @error.nil? %>
-<div class="notice">
-  <p><span class="err"><%= @error[:type] %></span></p>
-</div>
-<% end %>
-<% unless @notice.nil? %>
-<div class="notice">
-  <p><span class="success"><%= @notice[:type] %>, <%= @notice[:details] %></span></p>
-</div>
-<% end %>
 <article>
   <header class="simple">
     <h2>Zoo ( <a href="/zoo/<%=@zoo[:id]%>/list"><%= @zoo[:name] %></a> )</h2>

@@ -1,8 +1,3 @@
-<% unless @error.nil? %>
-<div class="notice">
-  <p><span class="err"><%= @error[:type] %></span></p>
-</div>
-<% end %>
 <form id="form_data" class="simple_form" action="/animal/create" method="post" enctype="multipart/form-data">
   <div>
   <label for="classification">Classification:</label>
