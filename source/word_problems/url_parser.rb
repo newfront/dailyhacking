@@ -120,6 +120,7 @@ def return_match_strength(data,dataset)
   #puts data[1].inspect
   dataset.each_with_index{|test,i|
     @weight = 0
+    @target_weight = 2
     #puts test[1].inspect
     weigh_base_url(data[1].base_url,test[1].base_url) unless data[1].base_url.nil? && test[1].base_url.nil?
     #puts @weight.to_s
@@ -129,11 +130,12 @@ def return_match_strength(data,dataset)
     #puts data[1].has_key?("params")
     #puts test[1].has_key?("params")
     unless test[1].separator == "none" && data[1].separator == "none"
+      @target_weight = 4 if data[1].has_key?("params") && test[1].has_key?("params")
       #puts "test params"
       weigh_params(data[1].params,test[1].params) unless !data[1].has_key?("params") && !test[1].has_key?("params")
     end
     #puts @weight.to_s
-    @tests << [test[0],@weight] unless @weight < 2
+    @tests << [test[0],@weight] unless @weight < @target_weight
   }
   return @tests
 end
