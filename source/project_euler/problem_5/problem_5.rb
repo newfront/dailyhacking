@@ -1,33 +1,63 @@
-#!/usr/bin/ruby
+=begin
+2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
 
-# 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 
-# without any remainder.
+What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+=end
 
-# What is the smallest positive number that is evenly divisible by all of the numbers 
-# from 1 to 20?
+def is_evenly_divisible(number,against)
+  
+  #return false unless number % 10 == 0
+  if number % against == 0
+    return true
+  end
+  
+  return false
+  
+end
 
-# Smallest Positive Number evenly divisible by all numbers 1 - 20
-
-#1.upto(){|target|
-#  @tests = []
-  #puts "TARGET: #{target.to_s}\n"
-#  1.upto(20){|divisor|
-    #puts "#{target.to_s}/#{divisor.to_s} = #{(target.to_f / divisor.to_f).to_s}"
-#    @tests << ((target.to_f / divisor.to_f) % 2 == 0)
-#  }
-  #puts @tests.inspect
-#  puts "#{target.to_s} works with full set"  if !@tests.include? false
-  #puts
-  #@tests = nil 
-#}
-@solutions = []
-1.upto(100000000 000){|numerator|
-  @results = []
-  1.upto(20){|divisor|
-    puts "#{numerator.to_f.to_s}/#{divisor.to_f.to_s} = #{(numerator.to_f/divisor.to_f).to_s}"
-    @results << ((numerator.to_f % divisor) == 0)
+def test_for_evenly_divisible(number,range)
+  
+  range.each{|test|
+    return false unless is_evenly_divisible(number,test)
   }
-  @solutions << numerator if !@results.include? false
-}
-puts "SOLUTION SET: "
-puts @solutions.inspect
+  return true
+end
+
+
+#test = 2520
+#puts test_for_evenly_divisible(test,(1..10)) #true
+
+#@divisible_by_all = []
+#def generate_divisibles(values_range,must_include_range)
+  
+#  values_range.each {|test|
+#    puts "test: #{test.to_s}"
+#    if test_for_evenly_divisible(test,must_include_range)
+#      @divisible_by_all << test
+#    end
+#  }
+#  puts @divisible_by_all.inspect
+#end
+
+# greatest common denominator
+def gcd(a,b)
+  
+  while (b != 0)
+    
+    tmp = b
+    b = a % b
+    a = tmp
+  end
+  
+  return a
+  
+end
+
+# lowest common multiple
+def lcm(a,b)
+  return (a * b) / gcd(a,b)
+end
+
+result = (1..20).inject {|c,n| lcm(c,n)}
+
+puts result.to_s

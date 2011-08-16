@@ -1,0 +1,22 @@
+RVM Usage
+---------
+rvm gemset create zookeeper
+
+touch .rvmrc
+vi .rvmrc
+(insert) rvm 1.9.2@zookeeper
+
+---------
+
+cd ..
+cd zookeeper
+
+accept gemset
+
+> gem update --system
+> gem install bundler
+> bundle install
+
+-----------
+
+Now you can use the service

@@ -1,0 +1,2 @@
+application:
+  mode: development #production, test

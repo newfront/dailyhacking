@@ -23,8 +23,8 @@ require 'erb'
 
 # NOTE: you have to add your twitter username and password, or this won't run
 $user = {
-  :username => @params[0].nil? ? "<insert_twitter_username>" : @params[0],
-  :password => @params[1].nil? ? "<insert_twitter_password>" : @params[1],
+  :username => @params[0].nil? ? "twitter_username" : @params[0],
+  :password => @params[1].nil? ? "twitter_password" : @params[1],
   :google_dev_key => "ABQIAAAAqj2FkdNbZi_ZKy1fY_HdjxQsPFBHlSdy9MSZLoC4ErdaOPqPGhSsI3FcfI7uPySPy7zgD5eo88rAWw",
   :google_dev_url => "http://gravitateapp.com"
 }
@@ -33,8 +33,7 @@ $db = {
   :name => "tweetdata"
 }
 
-@host = "50.57.78.206"
-#@host = '127.0.0.1'
+@host = '127.0.0.1'
 @port = 9000
 
 # open up stream to Twitter (pipe)
@@ -49,7 +48,7 @@ def stream_request
   
   #(Note) the more values in the track= the less things actually show up
   
-  http = EventMachine::HttpRequest.new(@request_url).post :head => {'Authorization'=> [$user[:username],$user[:password]],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=AOL,Editions,webaim,joystiq,myAOL,Messenger"
+  http = EventMachine::HttpRequest.new(@request_url).post :head => {'Authorization'=> [$user[:username],$user[:password]],'Content-Type'=>"application/x-www-form-urlencoded"}, :body => "track=Editions,webaim,joystiq,myAOL"
   #puts http.inspect
   buffer = ""
   
@@ -129,7 +128,7 @@ EM.run do
   # initiate polling on streaming twitter api
   stream_request
   
-  EventMachine::WebSocket.start(:host => @host, :port => @port) do |ws|
+  EventMachine::WebSocket.start(:host => '0.0.0.0', :port => @port) do |ws|
     
     ws.onopen {
       puts "WebSocket connection open"

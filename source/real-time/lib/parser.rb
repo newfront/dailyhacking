@@ -17,8 +17,8 @@ class Parser
       puts "message: #{tweet.to_s}"
       puts "Don't parse non JSON. Wasted your time: #{e.inspect}"
       #return 
-    rescue NoMethodError => e
-      puts "Errror: #{e.inspect}"
+    #rescue NoMethodError => e
+      #puts "Errror: #{e.inspect}"
       #return
     end
     
@@ -50,9 +50,15 @@ class Parser
     result = JSON.parse(result.body)
     
     @urls = []
-    result["responseData"]["results"].each {|response|
-      @urls << response["unescapedUrl"]
-    }
+    #puts result.inspect
+    
+    begin
+      result["responseData"]["results"].each {|response|
+        @urls << response["unescapedUrl"]
+      }
+    rescue
+      puts "error"
+    end
     
     
     # form to send to web socket

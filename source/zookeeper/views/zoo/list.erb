@@ -1,0 +1,12 @@
+<article>
+  <header class="simple">
+    <h2>Zoos</h2>
+  </header>
+  <section class="basic">
+    <ol class="decorated_list">
+      <% @zoos.each do |zoo|%>
+        <li><a href="/zoo/<%= zoo.id %>/list"><%= zoo.name %></a></li>
+      <% end %>
+    </ol>
+  </section>
+</article>

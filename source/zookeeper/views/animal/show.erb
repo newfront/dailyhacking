@@ -1,0 +1,33 @@
+<% unless @error.nil? %>
+<div class="notice">
+  <p><span class="err"><%= @error[:type] %></span></p>
+</div>
+<% end %>
+<% unless @notice.nil? %>
+<div class="notice">
+  <p><span class="success"><%= @notice[:type] %>, <%= @notice[:details] %></span></p>
+</div>
+<% end %>
+<article>
+  <header class="simple">
+    <h2>Zoo ( <a href="/zoo/<%=@zoo[:id]%>/list"><%= @zoo[:name] %></a> )</h2>
+  </header>
+  <section class="basic">
+    <div class="about_animal">
+      <ul class="decorated_list clear_decoration">
+      <li>Name: <%= @animal.name %></li>
+      <li>Age: <%= @animal.age %></li>
+      <% unless @classifications.nil? %>
+        <li>Type: 
+          <% @classifications.each do |classification| %>
+            <%= classification.type %>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <p><a href="/animal/<%= @animal.id%>/died">Kill off Animal</a></p>
+  </section>
+</article>

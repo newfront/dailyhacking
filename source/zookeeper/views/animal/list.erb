@@ -1,0 +1,25 @@
+<% unless @error.nil? %>
+<div class="notice">
+  <p><span class="err"><%= @error[:type] %></span></p>
+</div>
+<% end %>
+<% unless @notice.nil? %>
+<div class="notice">
+  <p><span class="success"><%= @notice[:type] %>, <%= @notice[:details] %></span></p>
+</div>
+<% end %>
+<article>
+  <header class="simple">
+    <h2><a href="/zoos/list">Zoos</a></h2>
+  </header>
+  <section class="basic">
+    <ol class="decorated_list">
+      <% @animals.each do |animal|%>
+        <li><a href="/animal/<%= animal.id %>/show"><%= animal.name %></a></li>
+      <% end %>
+    </ol>
+  </section>
+  <section class="callout">
+    <p>+ <a href="/animal/new">Add Animal</a></p>
+  </section>
+</article>
