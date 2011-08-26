@@ -28,11 +28,11 @@ def is_match(s1,s2)
   
   # search in n time
   s2.each_char{|char|
-    puts "#{char}"
+    #puts "#{char}"
     if s1_count_table.has_key? char
-      puts "#{char}:#{s1_count_table[char]}"
+      #puts "#{char}:#{s1_count_table[char]}"
       s1_count_table[char] = s1_count_table[char] - 1 
-      puts "#{char}:#{s1_count_table[char]}"
+      #puts "#{char}:#{s1_count_table[char]}"
     else
       matched = false
     end

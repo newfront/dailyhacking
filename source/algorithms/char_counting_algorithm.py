@@ -18,14 +18,18 @@ def count_occurences(str):
   
 def is_matched(s1,s2):
   matched = True
+  tests = 0
   
   s1_count_table = count_occurences(s1)
   
   for char in s2:
+    tests += 1
     if char in s1_count_table and s1_count_table[char]>0:
       s1_count_table[char] -= 1
     else:
       matched = False
+      break
+  print(str(tests))
   return matched
 
 #counting.is_matched("animal","laminar")
