@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'contaminated_jar_wp' target in the 'contaminated_jar_wp' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
