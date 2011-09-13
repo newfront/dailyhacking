@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'triangle_number_with_n_divisors' target in the 'triangle_number_with_n_divisors' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
