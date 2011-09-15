@@ -2,14 +2,17 @@
 var canvas = document.getElementById("mario_game");
 canvas.width = game_config.width;
 canvas.height = game_config.height;
-console.log(canvas);
+//console.log(canvas);
 fillRectWithColor(canvas,0,0,canvas.width,canvas.height,"#6490FE"); 
 //function(canvas,level,lives,continues)
 var game = new Mario(1,3,3);
 // set drawing surface
 game.setCanvas(canvas);
 
-console.log(game.getCanvas());
+//console.log(game.getCanvas());
+
+var l = new Level(1,window.environment_db);
+l.loadLevel();
 
 /*
  Build a single block

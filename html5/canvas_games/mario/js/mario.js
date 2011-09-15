@@ -34,7 +34,7 @@ Mario.prototype.addElement = function(elem)
 // return a list of active objects
 Mario.prototype.getElements = function getElements()
 {
-  console.log(this.elements);
+  //console.log(this.elements);
   return this.elements;
 }
 
@@ -109,7 +109,7 @@ Mario.prototype.endGame = function endGame()
 
 Mario.prototype.draw = function draw()
 {
-  console.log(this.getCanvas());
+  //console.log(this.getCanvas());
   var objects = this.getElements();
   for(var i=0; i < objects.length; ++i)
   {
@@ -120,7 +120,7 @@ Mario.prototype.draw = function draw()
 }
 
 //level,lives,continues
-console.log(mode);
+//console.log(mode);
 if(mode != "production")
 {
   var m = new Mario(1,3,3);

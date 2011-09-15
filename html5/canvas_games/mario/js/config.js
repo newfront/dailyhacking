@@ -54,12 +54,12 @@ var game_config = {
           "height":16
         },
         "empty_castle":{
-          "img":"assets/environment/blocks/EmptyBlock.png",
+          "img":"assets/environment/blocks/EmptyBlockCastle.png",
           "width":16,
           "height":16
         },
         "empty_dark":{
-          "img":"assets/environment/blocks/EmptyDark.png",
+          "img":"assets/environment/blocks/EmptyBlockDark.png",
           "width":16,
           "height":16
         },

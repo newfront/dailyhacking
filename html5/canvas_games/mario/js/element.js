@@ -6,37 +6,39 @@ var Element = (function(){
   return function()
   {
     this.id = ++id;
-    // set position
-    this.setPosition = function(x,y)
-    {
-      this.x = x;
-      this.y = y;
-    }
-    
-    // get current x position
-    this.getXPos = function()
-    {
-      return this.x
-    }
-    this.getYPos = function()
-    {
-      return this.y;
-    }
   };
 }());
-Element.prototype.getId = function()
+
+// set position
+Element.prototype.setPosition = function setPosition(x,y)
+{
+  this.x = x;
+  this.y = y;
+}
+
+// get current x position
+Element.prototype.getXPos = function getXPos()
+{
+  return this.x
+}
+Element.prototype.getYPos = function getYPos()
+{
+  return this.y;
+}
+
+Element.prototype.getId = function getId()
 {
   return this.id;
 }
-Element.prototype.setType = function(type)
+Element.prototype.setType = function setType(type)
 {
   this.type = type;
 }
-Element.prototype.getType = function()
+Element.prototype.getType = function getType()
 {
   return this.type;
 }
-Element.prototype.setKind = function(kind)
+Element.prototype.setKind = function setKind(kind)
 {
   this.kind = kind;
 }
@@ -54,5 +56,5 @@ Element.prototype.draw = function(canvas,x,y)
   }
   delete context;
   delete img;
-  console.log(img);
+  //console.log(img);
 }
