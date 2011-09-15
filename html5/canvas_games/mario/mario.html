@@ -12,14 +12,15 @@
   <script type="text/javascript">
     var game_config = {
       width: 800,
-      height: 300,
+      height: 288,
       fps: 30,
       stage: {
-        height: 16,
+        height: 18,
         width: 244,
         visible_width: 16,
         visible_height: 16
-      }
+      },
+      magnifier : 16
     }
     
     /*
@@ -183,27 +184,26 @@
     /**
      * Setup a new instance of the Mario Game
     */
-    var Mario = (function(canvas,level,lives,continues){
+    var Mario = (function(){
       // what is the current level?
-      var level = level; // 1,2,3,4,5,6,7,8
+      var level = 1; // 1,2,3,4,5,6,7,8
       // mario's current lives
-      var lives = lives;
+      var lives = 3;
       // mario's continues
-      var continues = continues;
+      var continues = 3;
       // mario's points
       var points = 0;
       // mario's status
       var status = "alive";
-      // draw the game here
-      var canvas = canvas;
-      
+      // keeps track of objects within the game
       var elements = new Array();
-      
+      // add a new game object
       addElement = function(elem)
       {
         elements.push(elem);
+        draw();
       }
-      
+      // return a list of active objects
       getElements = function()
       {
         console.log(elements);
@@ -217,7 +217,12 @@
       */
       getCanvas = function()
       {
-        return canvas;
+        return this.canvas;
+      }
+      
+      setCanvas = function(canvas)
+      {
+        this.canvas = canvas;
       }
       /**
        * Set the Current Level in Mario
@@ -269,6 +274,7 @@
       
       draw = function()
       {
+        console.log(canvas);
         var objects = getElements();
         for(var i=0; i < objects.length; ++i)
         {
@@ -279,39 +285,39 @@
       
       return function()
       {
+        this.setCanvas = function(canvas)
+        {
+          setCanvas(canvas);
+        }
         this.getCanvas = function()
         {
           return getCanvas();
-        },
+        }
+        
         this.incrementLives = function()
         {
           incrementLives();
-        },
+        }
+        
         this.decrementLives = function()
         {
           decrementLives();
-        },
-        // get all elements in the global space Element
+        }
+        
         this.getElements = function()
         {
-          var elems = getElements();
-          for(var i=0;i<elems.length;++i)
-          {
-            console.log(elems[i].type);
-            console.log(elems[i].kind);
-          }
-          delete elems;
-        },
+          this.elements = getElements();
+          return this.elements;
+        }
+        
         this.addElement = function(elem)
         {
           addElement(elem);
-        },
-        this.getElements = function()
+        }
+        
+        this.draw = function()
         {
-          return getElements();
-        },
-        this.draw() = function()
-        {
+          console.log("calling private method draw()");
           draw();
         }
       };
@@ -332,20 +338,26 @@
           this.y = y;
         }
         
-        // get current position
-        this.getPosition = function()
+        // get current x position
+        this.getXPos = function()
         {
-          return {"x":this.x,"y":this.y}
+          return this.x
+        }
+        this.getYPos = function()
+        {
+          return this.y;
         }
         // draw the element on the screen
         this.draw = function(canvas,x,y)
         {
           var context = canvas.getContext("2d");
           var img = new Image();
+          var xpos = this.getXPos()*16;
+          var ypos = this.getYPos()*16;
           img.src = window.environment_db.elements[this.type][this.kind].img;
           img.onload = function()
           {
-            context.drawImage(img,x,y);
+            context.drawImage(img,xpos,ypos);
           }
           delete context;
           delete img;
@@ -370,22 +382,41 @@
     {
       this.kind = kind;
     }
-    
-    var game = new Mario(canvas,1,3,3);
+    console.log(canvas);
+    //function(canvas,level,lives,continues)
+    var game = new Mario(this.canvas,1,3,3);
+    // set drawing surface
+    game.setCanvas(canvas);
     /*
      Build a single block
     */
-    
     var elem = new Element();
     elem.setType("block");
     elem.setKind("brick_brown");
+    elem.setPosition(10,11);
+    //console.log(elem.getId());
     
+    //add a block
     game.addElement(elem);
     
-    //console.log(elem.getId());
-    elem.setPosition(5,5);
-    //elem.getElements();
-    //elem.draw(canvas,5,5);
+    /*
+      add the first ground section to level 1
+      69 blocks across by 2 high
+    */
+    var gstart_x = 0;
+    var gstart_y = 17;
+    for(var j=0;j<20;++j)
+    {
+      // can share an instance of image, rather than having one image per block
+      this["ground"+j] = new Element();
+      this["ground"+j].setType("block");
+      this["ground"+j].setKind("ground_brown");
+      this["ground"+j].setPosition(gstart_x,gstart_y);
+      game.addElement(this["ground"+j]);
+      gstart_x += 1;
+    }
+    
+    // force a refresh of the screen
     game.draw();
     
   </script>
