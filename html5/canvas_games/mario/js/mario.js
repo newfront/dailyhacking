@@ -1,141 +1,129 @@
 /**
  * Setup a new instance of the Mario Game
 */
-var Mario = (function(){
-  // what is the current level?
-  var level = 1; // 1,2,3,4,5,6,7,8
-  // mario's current lives
-  var lives = 3;
-  // mario's continues
-  var continues = 3;
+var mode = "production"; //development
+var Mario = (function Mario(level,lives,continues){
   // mario's points
   var points = 0;
   // mario's status
   var status = "alive";
-  // keeps track of objects within the game
-  var elements = new Array();
-  // add a new game object
-  addElement = function(elem)
-  {
-    elements.push(elem);
-    draw();
-  }
-  // return a list of active objects
-  getElements = function()
-  {
-    console.log(elements);
-    return elements;
-  }
   
-  // protected methods
-  /**
-   * Get the Canvas Object
-   * @return (Object) canvas The main canvas object
-  */
-  getCanvas = function()
+  return function(level,lives,continues)
   {
-    return this.canvas;
-  }
-  
-  setCanvas = function(canvas)
-  {
-    this.canvas = canvas;
-  }
-  /**
-   * Set the Current Level in Mario
-   * @param (Integer) level can be 1 to 8
-  */
-  setLevel = function(level)
-  {
-    level = level;
-  }
-  /**
-   * Set the Current Available Lives
-   * @param (Integer)
-  */
-  setLives = function(lives)
-  {
-    lives = lives;
-  }
-  
-  /**
-   * Increment Lives
-  */
-  incrementLives = function()
-  {
-    lives++;
-  }
-  
-  /**
-   * Decrement Lives, or if lives-- <= 0 = gameover
-  */
-  decrementLives = function()
-  {
-    if(lives-1 > 0)
-    {
-      lives--;
-    }
-    else
-    {
-      status = "dead";
-      endGame();
-    }
-  }
-  /**
-   * End Game - Update Canvas to show End Game Screen with continues, or game over
-  */
-  endGame = function()
-  {
-    console.log("game over");
-  }
-  
-  draw = function()
-  {
-    console.log(canvas);
-    var objects = getElements();
-    for(var i=0; i < objects.length; ++i)
-    {
-      // draw the objects on the screen
-      objects[i].draw(canvas,5,5);
-    }
-  }
-  
-  return function()
-  {
-    this.setCanvas = function(canvas)
-    {
-      setCanvas(canvas);
-    }
-    this.getCanvas = function()
-    {
-      return getCanvas();
-    }
-    
-    this.incrementLives = function()
-    {
-      incrementLives();
-    }
-    
-    this.decrementLives = function()
-    {
-      decrementLives();
-    }
-    
-    this.getElements = function()
-    {
-      this.elements = getElements();
-      return this.elements;
-    }
-    
-    this.addElement = function(elem)
-    {
-      addElement(elem);
-    }
-    
-    this.draw = function()
-    {
-      console.log("calling private method draw()");
-      draw();
-    }
+    // what is the current level?
+    this.level = level;
+    // mario's current lives
+    this.lives = lives;
+    // mario's continues
+    this.continues = continues;
+    this.points = points;
+    this.status = status;
+    // TODO: bind to Level Object, keep state within Level
+    // keeps track of objects within the game
+    this.elements = [];
   };
+  
 }());
+
+// add a new game object
+Mario.prototype.addElement = function(elem)
+{
+  this.elements.push(elem);
+  this.draw();
+}
+// return a list of active objects
+Mario.prototype.getElements = function getElements()
+{
+  console.log(this.elements);
+  return this.elements;
+}
+
+/**
+ * Get the Canvas Object
+ * @return (Object) canvas The main canvas object
+*/
+Mario.prototype.getCanvas = function()
+{
+  return this.canvas;
+}
+/**
+ * Set the Canvas Object
+*/
+Mario.prototype.setCanvas = function(canvas)
+{
+  this.canvas = canvas;
+}
+
+Mario.prototype.getLevel = function getLevel()
+{
+  return this.level;
+}
+
+/**
+ * Set the Current Level in Mario
+ * @param (Integer) level can be 1 to 8
+*/
+Mario.prototype.setLevel = function setLevel(level)
+{
+  this.level = level;
+}
+/**
+ * Set the Current Available Lives
+ * @param (Integer)
+*/
+Mario.prototype.setLives = function setLives(lives)
+{
+  this.lives = lives;
+}
+
+/**
+ * Increment Lives
+*/
+Mario.prototype.incrementLives = function incrementLives()
+{
+  this.lives++;
+}
+
+/**
+ * Decrement Lives, or if lives-- <= 0 = gameover
+*/
+Mario.prototype.decrementLives = function decrementLives()
+{
+  if(this.lives-1 > 0)
+  {
+    this.lives--;
+  }
+  else
+  {
+    this.status = "dead";
+    endGame();
+  }
+}
+/**
+ * End Game - Update Canvas to show End Game Screen with continues, or game over
+*/
+Mario.prototype.endGame = function endGame()
+{
+  console.log("game over");
+}
+
+Mario.prototype.draw = function draw()
+{
+  console.log(this.getCanvas());
+  var objects = this.getElements();
+  for(var i=0; i < objects.length; ++i)
+  {
+    // draw the objects on the screen
+    objects[i].draw(this.canvas,5,5);
+  }
+  delete objects;
+}
+
+//level,lives,continues
+console.log(mode);
+if(mode != "production")
+{
+  var m = new Mario(1,3,3);
+  print(m.getLevel());
+  print(m.status);
+}

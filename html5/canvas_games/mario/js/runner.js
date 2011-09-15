@@ -5,9 +5,12 @@ canvas.height = game_config.height;
 console.log(canvas);
 fillRectWithColor(canvas,0,0,canvas.width,canvas.height,"#6490FE"); 
 //function(canvas,level,lives,continues)
-var game = new Mario(this.canvas,1,3,3);
+var game = new Mario(1,3,3);
 // set drawing surface
 game.setCanvas(canvas);
+
+console.log(game.getCanvas());
+
 /*
  Build a single block
 */

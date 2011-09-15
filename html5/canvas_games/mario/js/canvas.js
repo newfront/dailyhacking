@@ -61,7 +61,7 @@ function buildGradient(canvas)
 //drawImage(image, dx, dy)
 //drawImage(image, dx, dy, dw, dh)
 //drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
-function draw(canvas,path_with_image,x,y)
+/*function draw(canvas,path_with_image,x,y)
 {
   var context = canvas.getContext("2d");
   var img = new Image();
@@ -74,3 +74,4 @@ function draw(canvas,path_with_image,x,y)
   delete img;
   console.log(img);
 }
+*/
