@@ -59,3 +59,6 @@ game.setCanvas(canvas);
 var l = new Level(1,window.environment_db,game);
 l.setLoadedCallback(this,[levelbuilder.buildBlocks,levelbuilder.buildGround]);
 l.loadLevel();
+
+//type,name,posx,posy,speed
+var hero = new Character("hero","mario",0,17,2);
