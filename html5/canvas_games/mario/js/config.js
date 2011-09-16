@@ -1,3 +1,10 @@
+/*
+  45 blocks * 16 = 720
+  50 blocks * 16 = 800
+  
+  Our stage width can handle 50 blocks at a time
+  Traditional Mario stage is a box. 256*240 = 16*15 blocks of 16px on screen, 16*16 is easier
+*/
 var game_config = {
   width: 800,
   height: 288,
@@ -10,17 +17,21 @@ var game_config = {
   },
   magnifier : 16
 }
-  
-  /*
-    
-  */
-  window.environment_db = {
-    elements:
+
+window.environment_db = {
+  level:
+  {
+    1:
     {
-      /*
-        Blocks are the basic building blocks in Mario. This is what you walk on (mostly), 
-      */
-      block: 
+      background:"#6490FE"
+    }
+  },
+  elements:
+  {
+  /*
+    Blocks are the basic building blocks in Mario. This is what you walk on (mostly), 
+  */
+    block: 
       {
         /*
           You walk on these

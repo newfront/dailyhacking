@@ -2,6 +2,7 @@ var Loader = (function Loader(object)
 {
   return function(object)
   {
+    var loader = {};
     this.object = object;
     var assets = {
       size:0
@@ -45,6 +46,7 @@ var Loader = (function Loader(object)
         this.status = "loaded";
         console.log("all images are loaded. game my commence");
         // trigger callback
+        loader.callback.call();
       }
     }
     
@@ -65,6 +67,11 @@ var Loader = (function Loader(object)
     {
       //console.log(img.src+" has finished loading");
       remove_from_queue(img.path);
+    }
+    this.onLoaded = function(scope,callback)
+    {
+      loader.scope = scope;
+      loader.callback = callback;
     }
   };
 }());
@@ -95,15 +102,58 @@ Image.prototype.path = function(path)
   return this.path;
 }
 
-var Level = (function(number,assets){
-  return function(number,assets)
+var Level = (function(number,assets,game){
+  return function(number,assets,game)
   {
-    this.level = number;
-    this.assets = assets;
+    var level = {};
+    level.scope = this;
+    level.current = number;
+    level.game = game;
+    level.assets = assets;
+    
     this.loadLevel = function()
     {
-      this.loader = new Loader(this.assets);
-      this.loader.parseObject(this.assets);
+      var loader = new Loader(this.assets);
+      loader.onLoaded(level.scope,level.scope.paintBackground);
+      loader.parseObject(level.assets);
+      delete loader;
+    }
+    
+    this.paintBackground = function()
+    {
+      //"#6490FE"
+      var canvas = level.game.getCanvas();
+      fillRectWithColor(canvas,0,0,canvas.width,canvas.height,level.assets.level[level.current.toString()].background);
+      delete canvas;
+      
+      level.scope.onLoaded();
+    }
+    
+    this.setLoadedCallback = function(s,block)
+    {
+      level.callback_scope = s;
+      level.callback = block;
+    }
+    
+    /**
+     * When the level has finished loading its assets. Trigger any callbacks.
+    */
+    this.onLoaded = function()
+    {
+      if(level.callback != undefined)
+      {
+        if(Array.isArray(level.callback))
+        {
+          for(var i=0;i<level.callback.length;++i)
+          {
+            level.callback[i].call();
+          }
+        }
+        else
+        {
+          level.callback.call();
+        }
+      }
     }
   };
 }());
