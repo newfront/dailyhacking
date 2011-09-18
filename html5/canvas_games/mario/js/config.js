@@ -28,9 +28,42 @@ window.environment_db = {
   },
   elements:
   {
-  /*
-    Blocks are the basic building blocks in Mario. This is what you walk on (mostly), 
-  */
+    hero:
+    {
+      mario:
+      {
+        small:
+        {
+          standing:
+          {
+            "img":"assets/hero/MarioStanding.png",
+            "width":12,
+            "height":16
+          },
+          walking:
+          {
+            "img":"assets/hero/Mario.gif",
+            "width":15,
+            "height":16
+          },
+          jumping:
+          {
+            "img":"assets/hero/MarioJumping.png",
+            "width":16,
+            "height":16
+          },
+          skidding:
+          {
+            "img":"assets/hero/MarioSkidding.png",
+            "width":13,
+            "height":16
+          }
+        }
+      }
+    },
+    /*
+      Blocks are the basic building blocks in Mario. This is what you walk on (mostly), 
+    */
     block: 
       {
         /*

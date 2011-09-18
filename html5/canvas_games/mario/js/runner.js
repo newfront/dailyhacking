@@ -7,7 +7,7 @@ levelbuilder.buildBlocks = function(){
     var elem = new Element();
     elem.setType("block");
     elem.setKind("brick_brown");
-    elem.setPosition(12,3);
+    elem.setPosition(12,12);
     //add a block
     game.addElement(elem);
 };
@@ -45,6 +45,14 @@ levelbuilder.buildGround = function(){
   // force a refresh of the screen
   game.draw();
 };
+
+levelbuilder.addCharacter = function(type,name,posx,posy,speed)
+{
+  var char = new Element();
+  char.setType(type);
+  char.setKind(name);
+  char.Character(type,name,posx,posy,speed);
+}
 
 // Mario Stage
 var canvas = document.getElementById("mario_game");

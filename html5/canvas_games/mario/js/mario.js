@@ -1,7 +1,6 @@
 /**
  * Setup a new instance of the Mario Game
 */
-var mode = "production"; //development
 var Mario = (function Mario(level,lives,continues){
   // mario's points
   var points = 0;
@@ -117,13 +116,4 @@ Mario.prototype.draw = function draw()
     objects[i].draw(this.canvas,5,5);
   }
   delete objects;
-}
-
-//level,lives,continues
-//console.log(mode);
-if(mode != "production")
-{
-  var m = new Mario(1,3,3);
-  print(m.getLevel());
-  print(m.status);
 }

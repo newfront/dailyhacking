@@ -42,6 +42,12 @@ Element.prototype.setKind = function setKind(kind)
 {
   this.kind = kind;
 }
+Element.prototype.Character = function Character(type,name,posx,posy,speed)
+{
+  this.setXPos = posx;
+  this.setYPos = posy;
+  this.character = new Character(type,name,speed);
+}
 // draw the element on the screen
 Element.prototype.draw = function(canvas,x,y)
 {

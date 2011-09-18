@@ -9,8 +9,6 @@ var Character = (function(type,name,posx,posy,speed)
   {
     this.type = type;
     this.name = name;
-    this.posx = posx;
-    this.posy = posy;
     this.speed = speed;
     var character = this;
     if(type == "hero")
