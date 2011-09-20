@@ -147,36 +147,3 @@ Element.prototype.getKind = function getKind()
 {
   return this.kind;
 }
-
-// draw the element on the screen
-Element.prototype.draw = function(context)
-{
-  var scope = this;
-  //var context = canvas.getContext("2d");
-  var img = new Image();
-  var xpos = scope.getXPos()*16;
-  var ypos = scope.getYPos()*16;
-  var img_ref = scope.img;
-  
-  console.log(context);
-  
-  //console.log("the xpos of character");
-  
-  //console.log(this.getImg());
-  // if character, needs to override this method, add the ability to draw based off of current state based image ( walking, standing, running, jumping, crouching, dying)
-  if(this.getImg() === null)
-  {
-    img.src = window.environment_db.elements[this.type][this.kind].img;
-  }
-  else
-  {
-    img.src = this.getImg();
-  }
-  img.onload = function()
-  {
-    context.drawImage(img,xpos,ypos);
-    //console.log("drew image: "+img);
-  }
-  delete context;
-  delete img;
-}
