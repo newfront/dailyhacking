@@ -8,14 +8,17 @@
 var game_config = {
   width: 800,
   height: 288,
-  fps: 15,
+  fps: 10,
   stage: {
     height: 18,
     width: 244,
     visible_width: 16,
     visible_height: 16
   },
-  magnifier : 16
+  magnifier : 16,
+  gravity: 0.2,
+  tile_height: 18, // 16 with 2 boxes for the ground
+  ground_height: 2
 }
 
 window.environment_db = {
