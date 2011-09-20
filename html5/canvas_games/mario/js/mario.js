@@ -83,6 +83,8 @@ Mario.prototype.getLevel = function getLevel()
 Mario.prototype.setLevel = function setLevel(level)
 {
   this.level = level;
+  console.log("level set");
+  console.log(this.getLevel());
 }
 /**
  * Set the Current Available Lives
@@ -132,30 +134,43 @@ Mario.prototype.clearCanvas = function()
 }
 
 // update the rendered view
+// need to only draw to the canvas once after everything has been shifted
 Mario.prototype.draw = function draw()
 {
   this.clearCanvas();
   var objects = this.getElements();
   
+  var buffer = document.createElement('canvas');
+  var images = this.getLevel().get_image_assets();
+  // canvas = global canvas
+  buffer.width = this.canvas.width;
+  buffer.height = this.canvas.height;
+  
+  var buffer_context = buffer.getContext("2d");
+  // context = this.context;
+  
   for(var i=0; i < objects.length; ++i)
   {
-    // draw the objects on the screen
-    if(objects[i].hasOwnProperty("type"))
+    var xpos = objects[i].getXPos()*16;
+    var ypos = objects[i].getYPos()*16;
+    var img_ref;
+    
+    // if character, needs to override this method, add the ability to draw based off of current state based image ( walking, standing, running, jumping, crouching, dying)
+    if(objects[i].getImg() === null)
     {
-      //console.log("object has property 'type'");
+      img_ref = window.environment_db.elements[objects[i].type][objects[i].kind].img;
     }
-    if(objects[i].hasOwnProperty("kind"))
+    else
     {
-      //console.log("object has property kind");
+      img_ref = objects[i].getImg();
     }
-    if(objects[i].hasOwnProperty("name"))
-    {
-      console.log(objects[i].name);
-      console.log(objects[i].getId());
-    }
-    objects[i].draw(this.context);
+    console.log(images[img_ref]);
+    buffer_context.drawImage(images[img_ref],xpos,ypos);
   }
+  this.context.drawImage(buffer,0,0);
   delete objects;
+  delete buffer;
+  delete buffer_context;
 }
 
 // hit test / collisions
@@ -166,7 +181,7 @@ Mario.prototype.draw = function draw()
 // start Mario rendering engine
 Mario.prototype.start = function()
 {
-  //this.auto_draw();
+  this.auto_draw();
 }
 
 Mario.prototype.stop = function()
@@ -188,7 +203,7 @@ Mario.prototype.game_event = function game_event(event)
   {
     case "move":
       console.log("mario is moving. let's keep updating the canvas");
-      event.target.draw();
+      //event.target.draw();
     break;
   }
 }
@@ -200,7 +215,7 @@ Mario.prototype.auto_draw = function()
   if(!this.running)
   {
     this.running = false;
-    this.timer = setTimeout(function(){scope.do_draw();},250); // 15 fps = 15/1000 = 0.015 
+    this.timer = setTimeout(function(){scope.do_draw();},100); // 15 fps = 15/1000 = 0.015 
   }
 }
 

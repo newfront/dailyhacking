@@ -348,8 +348,6 @@ Animation.prototype.trigger_animation = function()
   this.runtime -= this.interval;
   this.running = false;
   
-  console.log(this.runtime);
-  
   if(this.props === "y")
   {
     //console.log("move in y");

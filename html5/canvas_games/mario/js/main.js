@@ -32,12 +32,12 @@ var Game = {
     //console.log(elem);
     var file = elem;
     file = file.replace(/.*\//,'');
-    console.log(file);
+    //console.log(file);
     for(var i=0; i < Game.loading.length;++i)
     {
       if(Game.loading[i] == file.toString())
       {
-        console.log("found it");
+        //console.log("found it");
         Game.loading.splice(i,1);
       }
     }
@@ -52,8 +52,8 @@ var Game = {
   },
   loadComplete: function()
   {
-    console.log("load complete");
-    console.log(Game.init);
+    //console.log("load complete");
+    //console.log(Game.init);
     Game.init();
   }
 }
@@ -64,8 +64,8 @@ if (Game.autoload)
   for(var i = 0; i < Game.dependencies.files.length;++i)
   {
     var dep = Game.dependencies;
-    console.log("dependencies");
-    console.log(dep.files[i]);
+    //console.log("dependencies");
+    //console.log(dep.files[i]);
     Game.loading.push(dep.files[i]+".js");
     Game.require(dep.path+"/"+dep.files[i]+".js",Game.loadHandler);
   }
@@ -172,5 +172,5 @@ function initGame()
   Game.level.loadLevel();
   
   // start rendering
-  Game.game.draw();
+  Game.game.auto_draw();
 }

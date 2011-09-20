@@ -158,6 +158,8 @@ Element.prototype.draw = function(context)
   var ypos = scope.getYPos()*16;
   var img_ref = scope.img;
   
+  console.log(context);
+  
   //console.log("the xpos of character");
   
   //console.log(this.getImg());
@@ -168,14 +170,12 @@ Element.prototype.draw = function(context)
   }
   else
   {
-    //console.log(scope);
-    //console.log("this.getImg() is not null");
-    //console.log(scope.getXPos());
     img.src = this.getImg();
   }
   img.onload = function()
   {
     context.drawImage(img,xpos,ypos);
+    //console.log("drew image: "+img);
   }
   delete context;
   delete img;

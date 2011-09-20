@@ -1,12 +1,13 @@
-var Loader = (function Loader(object)
+var Loader = (function Loader(object,callback)
 {
-  return function(object)
+  return function(object,callback)
   {
     var loader = {};
     this.object = object;
     var assets = {
       size:0
     };
+    this.callback = callback;
     this.status = "loading";
     
     this.parseObject = function(obj)
@@ -24,8 +25,7 @@ var Loader = (function Loader(object)
           this.parseObject(obj[item]);
         }
       }
-    }
-    
+    },
     this.add_to_queue = function(img_src)
     {
       assets[img_src] = "loading";
@@ -53,10 +53,15 @@ var Loader = (function Loader(object)
     this.load = function(img_src)
     {
       var img = new Image();
+      console.log("loading: "+img_src);
       img.src = img_src;
       img.path(img_src);
       this.add_to_queue(img_src);
       img.setCallback(this.loaded);
+      
+      // update images hash for level
+      this.callback(img_src,img);
+      
       img.onload = function()
       {
         this.triggerCallback(this);
@@ -110,13 +115,25 @@ var Level = (function(number,assets,game){
     level.current = number;
     level.game = game;
     level.assets = assets;
+    level.img_assets = {};
     
     this.loadLevel = function()
     {
-      var loader = new Loader(this.assets);
+      var loader = new Loader(this.assets,this.collect_image_assets);
       loader.onLoaded(level.scope,level.scope.onLoaded);
       loader.parseObject(level.assets);
       delete loader;
+    }
+    
+    this.collect_image_assets = function(img_src,img)
+    {
+      //console.log(typeof level.img_assets);
+      level.img_assets[img_src] = img;
+    }
+    
+    this.get_image_assets = function()
+    {
+      return level.img_assets;
     }
     
     // use this to paint the background of the canvas
