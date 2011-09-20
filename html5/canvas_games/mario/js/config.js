@@ -42,7 +42,7 @@ window.environment_db = {
           },
           walking:
           {
-            "img":"assets/hero/Mario.gif",
+            "img":["assets/hero/Mario-Walking-1.png","assets/hero/Mario-Walking-2.png"],
             "width":15,
             "height":16
           },
