@@ -14,13 +14,28 @@ var Loader = (function Loader(object,callback)
     {
       for(var item in obj)
       {
-        if(typeof obj[item] == "string" && item == "img")
+        if(item == "img")
         {
-          //console.log("found image");
-          this.load(obj[item]);
+          if(typeof obj[item] == "string")
+          {
+            this.load(obj[item]);
+          }
+          else if(Array.isArray(obj[item]))
+          {
+            for(var j=0;j<obj[item].length;++j)
+            {
+              this.load(obj[item][j]);
+            }
+          }
         }
-        
-        if(typeof obj[item] == "object")
+        else if(typeof obj[item] === "array" && item == "img")
+        {
+          for(var i=0;i < obj[itme].length;++i)
+          {
+            this.load(obj[item][i]);
+          }
+        }
+        else if(typeof obj[item] == "object")
         {
           this.parseObject(obj[item]);
         }
@@ -37,14 +52,12 @@ var Loader = (function Loader(object,callback)
     {
       delete assets[img_src];
       assets.size -= 1;
-      /*console.log(assets);
-      console.log(assets.size);
-      console.log(typeof assets.size);
-      */
+      
       if(assets.size == 0)
       {
         this.status = "loaded";
         console.log("all images are loaded. game my commence");
+        
         // trigger callback
         loader.callback.call();
       }
@@ -53,7 +66,7 @@ var Loader = (function Loader(object,callback)
     this.load = function(img_src)
     {
       var img = new Image();
-      console.log("loading: "+img_src);
+      //console.log("loading: "+img_src);
       img.src = img_src;
       img.path(img_src);
       this.add_to_queue(img_src);
