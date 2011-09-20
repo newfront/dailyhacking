@@ -21,6 +21,8 @@ var Mario = (function Mario(level,lives,continues){
     // TODO: bind to Level Object, keep state within Level
     // keeps track of objects within the game
     this.elements = [];
+    
+    this.positions_cache = {};
   };
   
 }());
@@ -83,8 +85,8 @@ Mario.prototype.getLevel = function getLevel()
 Mario.prototype.setLevel = function setLevel(level)
 {
   this.level = level;
-  console.log("level set");
-  console.log(this.getLevel());
+  //console.log("level set");
+  //console.log(this.getLevel());
 }
 /**
  * Set the Current Available Lives
@@ -134,12 +136,16 @@ Mario.prototype.clearCanvas = function()
 }
 
 // update the rendered view
-// need to only draw to the canvas once after everything has been shifted
+/* (Note * ) drawing to the buffered canvas, then applying the contents to the visible
+ canvas makes or breaks your game. Great tip found at http://www.slideshare.net/ernesto.jimenez/5-tips-for-your-html5-games
+*/
+
 Mario.prototype.draw = function draw()
 {
   this.clearCanvas();
   var objects = this.getElements();
   
+  // create the buffered canvas
   var buffer = document.createElement('canvas');
   var images = this.getLevel().get_image_assets();
   // canvas = global canvas
@@ -164,19 +170,39 @@ Mario.prototype.draw = function draw()
     {
       img_ref = objects[i].getImg();
     }
-    console.log(images[img_ref]);
+    //console.log(images);
     buffer_context.drawImage(images[img_ref],xpos,ypos);
+    delete xpos;
+    delete ypos;
+    delete img_ref;
   }
+  // draw buffered canvas to main visible canvas
   this.context.drawImage(buffer,0,0);
+  
+  // delete one time use variables
   delete objects;
   delete buffer;
   delete buffer_context;
+  delete images;
 }
 
 // hit test / collisions
 // need to add method to test that Mario has collided with an element on the stage
 // can use a hash dictionary from the draw method, can keep updating {"x":value,"ref":[obj.id,obj.id...]},{"y":value,"ref":[obj.id,obj.id...]}
 // since a hash is an instant lookup, it would save on the computation time to test for collisions
+
+Mario.prototype.store_positions = function(x,y,object)
+{
+  //this.positions_cache
+  if(typeof this.positions_cache.x === "undefined")
+  {
+    this.positions_cache.x = {};
+  }
+  if(typeof this.positions_cache.y === "undefined")
+  {
+    this.positions_cache.y = {};
+  }
+}
 
 // start Mario rendering engine
 Mario.prototype.start = function()
