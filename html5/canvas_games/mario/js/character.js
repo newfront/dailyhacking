@@ -21,7 +21,7 @@ var CharacterAssets = {
       },
       walking:
       {
-        "img":"assets/hero/Mario.gif",
+        img:["assets/hero/Mario-Walking-1.png","assets/hero/Mario-Walking-2.png"],
         "width":15,
         "height":16
       },
@@ -81,15 +81,14 @@ var Character = (function(type,kind,posx,posy,speed)
 {
   return function(type,kind,posx,posy,speed)
   {
-    //this.oparent = new Element();
-    //this.oparent.setType(type);
-    //this.oparent.setKind(kind);
-    //this.oparent.setPosition(posx,posy);
-    //this.oparent.setXPos(posx);
-    //this.oparent.setYPos(posy);
+    // used to grab element id for Character and 
+    // increment global counter
+    
     var el = new Element();
     this.id = el.getId();
     delete el;
+    
+    // 
     this.setType(type);
     this.setKind(kind);
     this.setXPos(posx);
@@ -97,14 +96,16 @@ var Character = (function(type,kind,posx,posy,speed)
     
     this.name = kind;
     this.speed = speed/game_config.fps/1.8; // 2/15 = 7.5 every 1000
-    console.log("speed: "+this.speed);
     this.state = 0;
     this.size = "small"; // super
     this.x = posx;
     this.y = posy;
     
-    console.log("mario see's config?");
-    //console.log(game_config);
+    // animation based variables
+    this.interval = 0;
+    this.anim_sequence = 0;
+    this.jump_height = 4;
+
   };
 }());
 
@@ -113,7 +114,7 @@ Character.prototype = Element.prototype;
 Character.prototype.init = function init()
 {
   var character = this;
-  console.log("speed: "+character.speed);
+  //console.log("speed: "+character.speed);
   if(this.type == "hero")
   {
     // bind movements to keyboard keys
@@ -199,9 +200,28 @@ Character.prototype.getState = function getState(human_friendly)
 Character.prototype.updateDrawable = function updateDrawable()
 {
   var drawable = CharacterAssets[this.name][this.size][this.getState(true)];
-  console.log(drawable);
-  console.log(drawable.img);
-  this.setImg(drawable.img);
+  //console.log(drawable);
+  var state = this.getState(true);
+  
+  if(state === "walking")
+  {
+    //console.log(drawable.img[this.anim_sequence]);
+    console.log(this.anim_sequence);
+    this.setImg(drawable.img[this.anim_sequence]);
+    if(this.anim_sequence === 0)
+    {
+      this.anim_sequence = 1;
+    }
+    else
+    {
+      this.anim_sequence = 0;
+    }
+  }
+  else
+  {
+    this.setImg(drawable.img);
+  }
+  
   this.setWidth(drawable.width);
   this.setHeight(drawable.height);
   delete drawable;
@@ -255,6 +275,13 @@ Character.prototype.move_right = function()
     this.setState(1); // walking
   }
   
+  // if mario is walking, start to update internal animation
+  
+  if(state === "walking")
+  {
+    this.updateDrawable();
+  }
+  
   if(this.x+this.speed <= 45)
   {
     this.x += this.speed;
@@ -298,7 +325,7 @@ Character.prototype.setSpeed = function(speed)
 
 Character.prototype.register_listener = function(scope,callback)
 {
-  console.log(scope);
+  //console.log(scope);
   this.listener = {};
   this.listener.scope = scope;
   this.listener.callback = callback;
