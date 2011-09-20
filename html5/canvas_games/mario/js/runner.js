@@ -46,12 +46,18 @@ levelbuilder.buildGround = function(){
   game.draw();
 };
 
-levelbuilder.addCharacter = function(type,name,posx,posy,speed)
+levelbuilder.addHero = function()
 {
-  var char = new Element();
-  char.setType(type);
-  char.setKind(name);
-  char.Character(type,name,posx,posy,speed);
+  var mario = new Character("hero","mario",0,1,16);
+  // mario.addCallback...
+  // mario.init()
+  //game.addElement(mario);
+  mario.init();
+  //console.log(mario.getImg());
+  game.addElement(mario);
+  game.draw();
+  
+  mario.register_listener(game,game.game_event);
 }
 
 // Mario Stage
@@ -61,12 +67,10 @@ canvas.height = game_config.height;
 //console.log(canvas); 
 //function(canvas,level,lives,continues)
 var game = new Mario(1,3,3);
+console.log(game);
 // set drawing surface
 game.setCanvas(canvas);
 
 var l = new Level(1,window.environment_db,game);
-l.setLoadedCallback(this,[levelbuilder.buildBlocks,levelbuilder.buildGround]);
+l.setLoadedCallback(this,[levelbuilder.buildBlocks,levelbuilder.buildGround,levelbuilder.addHero]);
 l.loadLevel();
-
-//type,name,posx,posy,speed
-var hero = new Character("hero","mario",0,17,2);

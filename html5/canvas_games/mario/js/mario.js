@@ -113,7 +113,30 @@ Mario.prototype.draw = function draw()
   for(var i=0; i < objects.length; ++i)
   {
     // draw the objects on the screen
-    objects[i].draw(this.canvas,5,5);
+    if(objects[i].hasOwnProperty("type"))
+    {
+      //console.log("object has property 'type'");
+    }
+    if(objects[i].hasOwnProperty("kind"))
+    {
+      //console.log("object has property kind");
+    }
+    objects[i].draw(this.canvas);
+    //console.log(objects[i]);
   }
   delete objects;
+}
+
+Mario.prototype.game_event = function game_event(event)
+{
+  console.log("New Event: "+event.type);
+  console.log(this);
+  console.log(event.target);
+  switch(event.type)
+  {
+    case "move":
+      console.log("mario is moving. let's keep updating the canvas");
+      event.target.draw();
+    break;
+  }
 }
