@@ -28,7 +28,18 @@ var Mario = (function Mario(level,lives,continues){
 Mario.prototype.addElement = function(elem)
 {
   this.elements.push(elem);
+  // only draw when we call it, save ram
+  
+  
+  if(elem.hasOwnProperty("name"))
+  {
+    console.log(elem.getId());
+    console.log(elem.name);
+    console.log(elem.type);
+  }
+  
   this.draw();
+  
 }
 // return a list of active objects
 Mario.prototype.getElements = function getElements()
@@ -45,12 +56,18 @@ Mario.prototype.getCanvas = function()
 {
   return this.canvas;
 }
+
+Mario.prototype.getCanvasContext = function()
+{
+  return this.context;
+}
 /**
  * Set the Canvas Object
 */
 Mario.prototype.setCanvas = function(canvas)
 {
   this.canvas = canvas;
+  this.context = this.canvas.getContext("2d");
 }
 
 Mario.prototype.getLevel = function getLevel()
@@ -106,9 +123,15 @@ Mario.prototype.endGame = function endGame()
   console.log("game over");
 }
 
+Mario.prototype.clearCanvas = function()
+{
+  // clear background
+  this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+}
+
 Mario.prototype.draw = function draw()
 {
-  //console.log(this.getCanvas());
+  this.clearCanvas();
   var objects = this.getElements();
   for(var i=0; i < objects.length; ++i)
   {
@@ -121,8 +144,12 @@ Mario.prototype.draw = function draw()
     {
       //console.log("object has property kind");
     }
-    objects[i].draw(this.canvas);
-    //console.log(objects[i]);
+    if(objects[i].hasOwnProperty("name"))
+    {
+      console.log(objects[i].name);
+      console.log(objects[i].getId());
+    }
+    objects[i].draw(this.context);
   }
   delete objects;
 }
@@ -136,6 +163,7 @@ Mario.prototype.game_event = function game_event(event)
   {
     case "move":
       console.log("mario is moving. let's keep updating the canvas");
+      //event.target.clearCanvas();
       event.target.draw();
     break;
   }

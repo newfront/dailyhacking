@@ -114,19 +114,21 @@ var Level = (function(number,assets,game){
     this.loadLevel = function()
     {
       var loader = new Loader(this.assets);
-      loader.onLoaded(level.scope,level.scope.paintBackground);
+      loader.onLoaded(level.scope,level.scope.onLoaded);
       loader.parseObject(level.assets);
       delete loader;
     }
     
+    // use this to paint the background of the canvas
+    // alt. better use of memory, style canvas background with CSS
     this.paintBackground = function()
     {
-      //"#6490FE"
-      var canvas = level.game.getCanvas();
-      fillRectWithColor(canvas,0,0,canvas.width,canvas.height,level.assets.level[level.current.toString()].background);
-      delete canvas;
       
-      level.scope.onLoaded();
+      //"#6490FE"
+      //var canvas = level.game.getCanvas();
+      //fillRectWithColor(canvas,0,0,canvas.width,canvas.height,level.assets.level[level.current.toString()].background);
+      //delete canvas;
+      //level.scope.onLoaded();
     }
     
     this.setLoadedCallback = function(s,block)

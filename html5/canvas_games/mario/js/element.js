@@ -149,10 +149,10 @@ Element.prototype.getKind = function getKind()
 }
 
 // draw the element on the screen
-Element.prototype.draw = function(canvas)
+Element.prototype.draw = function(context)
 {
   var scope = this;
-  var context = canvas.getContext("2d");
+  //var context = canvas.getContext("2d");
   var img = new Image();
   var xpos = scope.getXPos()*16;
   var ypos = scope.getYPos()*16;
@@ -170,7 +170,7 @@ Element.prototype.draw = function(canvas)
   {
     //console.log(scope);
     //console.log("this.getImg() is not null");
-    console.log(scope.getXPos());
+    //console.log(scope.getXPos());
     img.src = this.getImg();
   }
   img.onload = function()

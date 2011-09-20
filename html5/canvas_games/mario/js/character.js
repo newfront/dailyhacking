@@ -81,30 +81,26 @@ var Character = (function(type,kind,posx,posy,speed)
 {
   return function(type,kind,name,posx,posy,speed)
   {
-    this.oparent = new Element();
-    this.oparent.setType(type);
-    this.oparent.setKind(kind);
+    //this.oparent = new Element();
+    //this.oparent.setType(type);
+    //this.oparent.setKind(kind);
     //this.oparent.setPosition(posx,posy);
-    this.oparent.setXPos(posx);
-    this.oparent.setYPos(posy);
+    //this.oparent.setXPos(posx);
+    //this.oparent.setYPos(posy);
+    var el = new Element();
+    this.id = el.getId();
+    delete el;
+    this.setType(type);
+    this.setKind(kind);
+    this.setXPos(posx);
+    this.setYPos(posy);
     
-    //console.log(this.parent.getId());
     this.name = kind;
     this.speed = speed;
     this.state = 0;
     this.size = "small"; // super
     this.x = posx;
     this.y = posy;
-    
-    this.getParent = function()
-    {
-      return this.oparent;
-    }
-    
-    this.getImg = function()
-    {
-      return this.getParent().getImg();
-    }
   };
 }());
 
@@ -114,9 +110,7 @@ Character.prototype.init = function init()
 {
   var character = this;
   console.log("speed: "+character.speed);
-  console.log("Character (Mario) parent");
-  console.log(this.oparent);
-  if(this.oparent.type == "hero")
+  if(this.type == "hero")
   {
     // bind movements to keyboard keys
     // a = jump
@@ -129,11 +123,11 @@ Character.prototype.init = function init()
       var drawable = CharacterAssets[this.name][this.size][this.getState(true)];
       console.log(drawable);
       console.log(drawable.img);
-      this.oparent.setImg(drawable.img);
-      this.oparent.setWidth(drawable.width);
-      this.oparent.setHeight(drawable.height);
+      this.setImg(drawable.img);
+      this.setWidth(drawable.width);
+      this.setHeight(drawable.height);
       console.log("mario now has drawable image, width and height");
-      console.log(this.oparent.getImg());
+      console.log(this.getImg());
     }
     // else could be enemy, etc
     
@@ -175,6 +169,10 @@ Character.prototype.init = function init()
   //apply(this.oparent,getPId);
 }
 */
+Character.prototype.getImg = function getImg()
+{
+  return this.img;
+}
 
 Character.prototype.setState = function setState(state_id)
 {

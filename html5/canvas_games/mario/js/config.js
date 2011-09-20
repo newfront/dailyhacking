@@ -128,4 +128,3 @@ window.environment_db = {
       }
     }
   }
-  

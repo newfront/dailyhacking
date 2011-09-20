@@ -60,17 +60,13 @@ levelbuilder.addHero = function()
   mario.register_listener(game,game.game_event);
 }
 
-// Mario Stage
-var canvas = document.getElementById("mario_game");
-canvas.width = game_config.width;
-canvas.height = game_config.height;
-//console.log(canvas); 
-//function(canvas,level,lives,continues)
 var game = new Mario(1,3,3);
 console.log(game);
 // set drawing surface
 game.setCanvas(canvas);
-
+// level
 var l = new Level(1,window.environment_db,game);
 l.setLoadedCallback(this,[levelbuilder.buildBlocks,levelbuilder.buildGround,levelbuilder.addHero]);
+
+game.setLevel(l);
 l.loadLevel();
