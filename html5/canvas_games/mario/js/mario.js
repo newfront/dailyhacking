@@ -160,7 +160,6 @@ Mario.prototype.draw = function draw()
     var xpos = objects[i].getXPos()*16;
     var ypos = objects[i].getYPos()*16;
     var img_ref;
-    
     // if character, needs to override this method, add the ability to draw based off of current state based image ( walking, standing, running, jumping, crouching, dying)
     if(objects[i].getImg() === null)
     {
@@ -169,6 +168,10 @@ Mario.prototype.draw = function draw()
     else
     {
       img_ref = objects[i].getImg();
+      if(objects[i].object_type === "character")
+      {
+        objects[i].render();
+      }
     }
     //console.log(images);
     buffer_context.drawImage(images[img_ref],xpos,ypos);
