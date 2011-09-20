@@ -121,10 +121,11 @@ function initGame()
       var elem = new Element();
       elem.setType("block");
       elem.setKind("brick_brown");
-      elem.setPosition(12,12);
+      elem.setPosition(12,game_config.height/16-4);
       //add a block
       Game.game.addElement(elem);
   };
+  
   Game.levelbuilder.buildGround = function(){
     var gstart_x = 0;
     var gstart_y = 17;
@@ -140,21 +141,23 @@ function initGame()
       delete this["ground"+j];
     }
     // force a refresh of the screen
-    Game.game.draw();
+    //Game.game.draw();
   };
 
   Game.levelbuilder.addHero = function()
   {
-    var mario = new Character("hero","mario",0,1,16);
+    //type,kind,posx,posy,speed
+    var mario = new Character("hero","mario",0,game_config.height/16-2,2);
     // mario.addCallback...
     // mario.init()
     //game.addElement(mario);
     mario.init();
     //console.log(mario.getImg());
     Game.game.addElement(mario);
-    Game.game.draw();
+    //Game.game.draw();
 
     mario.register_listener(Game.game,Game.game.game_event);
+    Game.game.draw();
   }
 
   Game.game = new Mario(1,3,3);
@@ -167,4 +170,7 @@ function initGame()
 
   Game.game.setLevel(Game.level);
   Game.level.loadLevel();
+  
+  // start rendering
+  Game.game.draw();
 }

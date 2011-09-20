@@ -8,7 +8,7 @@
 var game_config = {
   width: 800,
   height: 288,
-  fps: 30,
+  fps: 15,
   stage: {
     height: 18,
     width: 244,

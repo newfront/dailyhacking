@@ -17,6 +17,7 @@ var Mario = (function Mario(level,lives,continues){
     this.continues = continues;
     this.points = points;
     this.status = status;
+    this.running = false;
     // TODO: bind to Level Object, keep state within Level
     // keeps track of objects within the game
     this.elements = [];
@@ -38,7 +39,7 @@ Mario.prototype.addElement = function(elem)
     console.log(elem.type);
   }
   
-  this.draw();
+  //this.draw();
   
 }
 // return a list of active objects
@@ -123,16 +124,19 @@ Mario.prototype.endGame = function endGame()
   console.log("game over");
 }
 
+// TODO: think about refreshing only the regions on the canvas that have chnaged...
 Mario.prototype.clearCanvas = function()
 {
   // clear background
   this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
 }
 
+// update the rendered view
 Mario.prototype.draw = function draw()
 {
   this.clearCanvas();
   var objects = this.getElements();
+  
   for(var i=0; i < objects.length; ++i)
   {
     // draw the objects on the screen
@@ -154,17 +158,55 @@ Mario.prototype.draw = function draw()
   delete objects;
 }
 
+// hit test / collisions
+// need to add method to test that Mario has collided with an element on the stage
+// can use a hash dictionary from the draw method, can keep updating {"x":value,"ref":[obj.id,obj.id...]},{"y":value,"ref":[obj.id,obj.id...]}
+// since a hash is an instant lookup, it would save on the computation time to test for collisions
+
+// start Mario rendering engine
+Mario.prototype.start = function()
+{
+  //this.auto_draw();
+}
+
+Mario.prototype.stop = function()
+{
+  if(this.running)
+  {
+    clearTimeout(this.timer);
+    this.timer = null;
+    console.log("stopped");
+  }
+}
+
 Mario.prototype.game_event = function game_event(event)
 {
-  console.log("New Event: "+event.type);
-  console.log(this);
-  console.log(event.target);
+  //console.log("New Event: "+event.type);
+  //console.log(this);
+  //console.log(event.target);
   switch(event.type)
   {
     case "move":
       console.log("mario is moving. let's keep updating the canvas");
-      //event.target.clearCanvas();
       event.target.draw();
     break;
   }
+}
+
+// works but looks terrible, everything flashs. need to figure out how to get the canvas to update better
+Mario.prototype.auto_draw = function()
+{
+  var scope = this;
+  if(!this.running)
+  {
+    this.running = false;
+    this.timer = setTimeout(function(){scope.do_draw();},250); // 15 fps = 15/1000 = 0.015 
+  }
+}
+
+Mario.prototype.do_draw = function()
+{
+  this.running = false;
+  this.draw();
+  this.auto_draw();
 }
