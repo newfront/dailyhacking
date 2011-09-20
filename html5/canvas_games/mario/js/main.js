@@ -161,7 +161,7 @@ function initGame()
   }
 
   Game.game = new Mario(1,3,3);
-  console.log(Game.game);
+  //console.log(Game.game);
   // set drawing surface
   Game.game.setCanvas(Game.canvas);
   // level
