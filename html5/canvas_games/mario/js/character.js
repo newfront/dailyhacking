@@ -204,7 +204,10 @@ Character.prototype.squat = function()
 Character.prototype.move_right = function()
 {
   console.log("move right: "+this.x);
-  this.x += 1;
+  if(this.x+1 <= 45)
+  {
+    this.x += 1;
+  }
   
   if(typeof this.listener === "object")
   {
@@ -218,6 +221,16 @@ Character.prototype.move_left = function()
 {
   console.log("move left");
   console.log("move left at a speed of "+this.getSpeed());
+  if(this.x-1 >= 0)
+  {
+    this.x -= 1;
+  }
+  if(typeof this.listener === "object")
+  {
+    console.log("new event occured.");
+    //console.log(typeof this.listener.callback);
+    this.listener.callback.call(null,{"type":"move","target":this.listener.scope});
+  }
 }
 
 Character.prototype.getSpeed = function()

@@ -1,6 +1,3 @@
-// dependencies
-// config.js
-// canvas.js
 var Game = {
   dependencies: {
     "path":"js",
