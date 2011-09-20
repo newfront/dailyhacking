@@ -88,6 +88,7 @@ var Character = (function(type,kind,posx,posy,speed)
     this.id = el.getId();
     delete el;
     
+    this.object_type = "character";
     // 
     this.setType(type);
     this.setKind(kind);
@@ -95,7 +96,7 @@ var Character = (function(type,kind,posx,posy,speed)
     this.setYPos(posy);
     
     this.name = kind;
-    this.speed = speed/game_config.fps/1.8; // 2/15 = 7.5 every 1000
+    this.setSpeed(speed); // 2/15 = 7.5 every 1000
     this.state = 0;
     this.size = "small"; // super
     this.x = posx;
@@ -104,7 +105,27 @@ var Character = (function(type,kind,posx,posy,speed)
     // animation based variables
     this.interval = 0;
     this.anim_sequence = 0;
-    this.jump_height = 4;
+    
+    // jumping
+    this.jumping = false;
+    this.jump_speed = 0;
+    this.jump_velocity = 20; // needs to be whole even number.
+    this.fall_speed = 0;
+    
+    // walking
+    this.walking = false;
+    
+    // crouching
+    this.crouching = false;
+    
+    // running
+    this.running = false;
+    
+    // standing
+    this.standing = true;
+    
+    // dying
+    this.dying = false;
 
   };
 }());
@@ -114,22 +135,15 @@ Character.prototype = Element.prototype;
 Character.prototype.init = function init()
 {
   var character = this;
-  //console.log("speed: "+character.speed);
   if(this.type == "hero")
   {
-    // bind movements to keyboard keys
-    // a = jump
-    // s = crouch
-    // key_left = move left
-    // key_right = move right
     if(this.name.match(/mario/i))
     {
-      // we can decorate Mario
+      // we can decorate Character
       this.updateDrawable();
-      console.log("mario now has drawable image, width and height");
-      console.log(this.getImg());
     }
     // else could be enemy, etc
+    // bind to canvas div around canvas so there will be non blocking ui
     
     if(typeof window != "undefined")
     {
@@ -156,7 +170,8 @@ Character.prototype.init = function init()
       }
       window.onkeyup = function(event)
       {
-        character.setState(0);
+        character.walking = false;
+        character.standing = true;
       }
     }
     else
@@ -166,18 +181,13 @@ Character.prototype.init = function init()
   }
 }
 
-/*Character.prototype.getPId = function getPId()
-{
-  var object = this.oparent;
-  console.log(object);
-  //apply(this.oparent,getPId);
-}
-*/
+// get the current drawable image
 Character.prototype.getImg = function getImg()
 {
   return this.img;
 }
 
+// set the characters current state
 Character.prototype.setState = function setState(state_id)
 {
   this.state = state_id;
@@ -221,7 +231,6 @@ Character.prototype.updateDrawable = function updateDrawable()
   {
     this.setImg(drawable.img);
   }
-  
   this.setWidth(drawable.width);
   this.setHeight(drawable.height);
   delete drawable;
@@ -229,35 +238,95 @@ Character.prototype.updateDrawable = function updateDrawable()
 
 Character.prototype.jump = function jump()
 {
-  console.log("jump");
-  // if this.getState(true) == "jumping"... ignore
-  console.log(this.getState(true));
-  if(this.getState(true) != "jumping")
+  if(!this.jumping)
   {
+    this.jumping = true;
     // set character action state (jumping)
     this.setState(2);
-    // start jump timer, 2 seconds of jump, updated in 200ms increments
-    this.do_jump(this.y,this.y-10,2,true);
+    this.jump_speed = this.jump_velocity/game_config.tile_height;
+    this.fall_speed = 0;
+  }
+  else
+  {
+    // ignore since character is already jumping
   }
 }
 
-Character.prototype.do_jump = function do_jump(start,finish,time,rewind)
+// Used to render animations based on the current activity by character
+Character.prototype.render = function render()
 {
-  // animate on the y, from y.current to y.end, over time
-  // if rewind, from y.current to y.end back to y.current, over time
-  console.log("do_jump");
-  this.jump_animate = new Animation();
-  console.log(this.jump_animate);
-  var scope = this;
-  //target,props,runtime,callback
-  // function(target,props,runtime,callback)
-  this.jump_animate.init(scope,"y",time,this.jump_finished);
-  this.jump_animate.start();
-}
-
-Character.prototype.jump_finished = function()
-{
-  console.log("jump finished");
+  // add walking logic here
+  // add crouching logic here
+  // add running logic here
+  // add jumping logic here
+  var state = this.getState(true);
+  if(this.jumping){
+    //console.log("character is jumping");
+    this.setPosition(this.x,this.y - this.jump_speed);
+    this.jump_speed -= game_config.gravity;
+    
+    if(this.jump_speed <= 0)
+    {
+      console.log("jump_speed is 0");
+      this.jumping = false;
+      this.falling = true;
+      this.fall_speed = 1;
+    }
+  }
+  
+  if(this.falling)
+  {
+    console.log("character is falling");
+    console.log("character y: "+this.y);
+    console.log("game_config.tile_height: "+game_config.tile_height);
+    console.log("character height: "+this.height);
+    
+    // 13.22
+    // bottom of game is 18
+    // game_config.height/16-2
+    // 18 - 2 - 1 = 15
+    //16
+    if(this.y < game_config.height/16-2-1)
+    {
+      console.log(this.y);
+      this.setPosition(this.x,this.y + this.fall_speed);
+      //this.setPosition(this.x,this.y + this.fall_speed);
+      this.fall_speed += game_config.gravity;
+    }
+    else
+    {
+      this.setYPos(game_config.height/16-2);
+      console.log("falling is finished");
+      console.log(this.y);
+      this.falling = false;
+      this.fall_speed = 0;
+      this.setState(0);
+    }
+  }
+  
+  switch(state)
+  {
+    case "jumping":
+      
+    break;
+    
+    case "walking":
+      // mario is walking
+    break;
+    
+    case "standing":
+      // mario is standing
+    break;
+    
+    case "crouching":
+     // mario is crouching
+    break;
+    
+    case "running":
+      // mario is running
+    break;
+  }
+  
 }
 
 Character.prototype.squat = function()
@@ -267,7 +336,9 @@ Character.prototype.squat = function()
 
 Character.prototype.move_right = function()
 {
-  console.log("move right: "+this.x);
+  var scope = this;
+  console.log(scope);
+  console.log("character x"+this.x);
   var state = this.getState(true);
   
   if(state === "standing")
@@ -281,13 +352,16 @@ Character.prototype.move_right = function()
   {
     this.updateDrawable();
   }
-  
+  console.log(game_config.width/16);
+  console.log("character x: "+this.x);
+  console.log("character speed: "+this.speed);
   if(this.x+this.speed <= 45)
   {
+    console.log("current speed: "+this.speed);
     this.x += this.speed;
   }
-  console.log(this.getState(true));
-  console.log(this.getImg());
+  //console.log(this.getState(true));
+  //console.log(this.getImg());
   
   if(typeof this.listener === "object")
   {
@@ -297,30 +371,36 @@ Character.prototype.move_right = function()
   }
 }
 
+// move character to the left
 Character.prototype.move_left = function()
 {
-  console.log("move left");
-  console.log("move left at a speed of "+this.getSpeed());
   if(this.x-this.speed >= 0)
   {
     this.x -= this.speed;
   }
+  // don't even need the listener unless maybe to update collision detection
   if(typeof this.listener === "object")
   {
     console.log("new event occured.");
-    //console.log(typeof this.listener.callback);
     this.listener.callback.call(null,{"type":"move","target":this.listener.scope});
   }
 }
 
+// get the characters current speed
 Character.prototype.getSpeed = function()
 {
   return this.speed;
 }
-
+// set the characters current speed
 Character.prototype.setSpeed = function(speed)
 {
-  this.speed = speed;
+  //speed/game_config.fps/1.8
+  // we want to attempt to move mario less than a pixel per refresh
+  // so that means if we want to move mario at 2 frames a second
+  // we would need to move mario at 2/game_config.fps on each interval (0.2)
+  console.log("speed: "+speed);
+  console.log("tile_based_speed: "+speed/game_config.fps);
+  this.speed = speed/game_config.fps;
 }
 
 Character.prototype.register_listener = function(scope,callback)
@@ -335,96 +415,4 @@ Character.prototype.remove = function()
 {
   // remove the character from the display list, remove from memory
   // if the type is hero, remove triggers game_over for game singleton
-}
-
-var Animation = (function()
-{
-  // props = {"y":this.y,"start":this.getYPos,"end":integer,"rewind":true}
-  // callback occures when the animation finishes
-  var id = 0;
-  return function()
-  {
-    this.id = id++;
-  }
-}());
-
-// Animation is terrible at this point
-// Mario jumps for 2 seconds, he moves a total of 4 blocks up
-// Mario needs to travel from mario.y - mario.y - 4 in 1 second, and back to mario.y in 1 second
-Animation.prototype.init = function(target,props,runtime,callback)
-{
-  this.target = target;
-  this.props = props;
-  
-  // 2 seconds = 2000 milliseconds, 
-  // y.start = 16, y.end = 10 = frame_distance
-  // frame_distance / fps = 
-  
-  this.runtime = runtime*1000; // 2 seconds = 2000 milliseconds 
-  this.runlength = runtime*1000;
-  this.callback = callback;
-  this.running = false;
-  this.interval = 200;
-  console.log(this.runtime);
-}
-
-Animation.prototype.trigger_animation = function()
-{
-  console.log("trigger animation");
-  
-  this.runtime -= this.interval;
-  this.running = false;
-  
-  if(this.props === "y")
-  {
-    //console.log("move in y");
-    // if this.target.y == this.target.y_start (move up)
-    // if this.target.y == this.targer.y_start + 4 (move down)
-    console.log(this.runtime);
-    console.log(this.runlength);
-    if(this.runtime >= this.runlength / 2)
-    {
-      this.target.y -= .4;
-      //console.log("runtime is greater than runlength");
-      console.log(this.target.y)
-    }
-    else
-    {
-      //console.log("runtime is less than runlength");
-      this.target.y += .4;
-      console.log(this.target.y)
-    }
-    this.target.listener.callback.call(null,{"type":"move","target":this.target.listener.scope});
-  }
-  
-  if(this.runtime > 0)
-  {
-    this.stop();
-    this.start();
-  }
-  else
-  {
-    console.log("animation complete");
-  }
-}
-
-Animation.prototype.start = function start()
-{
-  // move 6 pixels in this.runtime / 2 seconds, move back in this.runtime / 2 seconds
-  var scope = this;
-  if(!scope.running)
-  {
-    scope.running = true;
-    //console.log(scope.runtime);
-    //console.log(scope.interval);
-    scope.y_start = scope.y;
-    scope.timer = setTimeout(function(){scope.trigger_animation();},scope.interval);
-  }
-}
-
-Animation.prototype.stop = function stop()
-{
-  clearTimeout(this.timer);
-  this.timer = null;
-  this.running = false;
 }
