@@ -13,6 +13,7 @@ var Element = (function(scope,callback){
     this.type = "default";
     this.kind = "default";
     this.img = null;
+    this.object_type = "element";
     if(typeof callback != "undefined" && typeof scope != "undefined")
     {
       callback.apply(scope);
