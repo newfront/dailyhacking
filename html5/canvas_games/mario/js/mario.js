@@ -166,6 +166,17 @@ Mario.prototype.draw = function draw()
     // if character, needs to override this method, add the ability to draw based off of current state based image ( walking, standing, running, jumping, crouching, dying)
     if(objects[i].hasWeight())
     {
+      // if width hasn't been set
+      if(objects[i].width === 0)
+      {
+        objects[i].setWidth(window.environment_db.elements[objects[i].type][objects[i].kind].width);
+      }
+      // if height hasn't been set
+      if(objects[i].height === 0)
+      {
+        objects[i].setHeight(window.environment_db.elements[objects[i].type][objects[i].kind].height);
+      }
+      
       if(typeof this.weighted_elements[objects[i].getId()] === "undefined")
       {
         // try just adding the object's that have weight
@@ -220,13 +231,12 @@ Mario.prototype.find_collisions = function find_collisions()
       }
       else
       {
-        // need to account for object width and height
-        // Need to do hittest within the range of the object
-        // Range[obja.x - obja.width/2 ... obja.x + obja.width/2]
-        // Range[objb.x - objb.width/2 ... objb.x + objb.width/2]
-        if(Math.floor(obja.x) == Math.floor(objb.x) && Math.floor(obja.y) === Math.floor(objb.y))
+        var didHit = this.hitTest(obja,objb);
+        if(didHit.result)
         {
-          console.log("hitDetected between: "+obja.object_type+" and "+objb.object_type);
+          //console.log("collision detected");
+          //console.log(didHit);
+          objb.collision(didHit);
         }
       }
     }
@@ -234,21 +244,38 @@ Mario.prototype.find_collisions = function find_collisions()
   }
 }
 
-// hit test / collisions
-// need to add method to test that Mario has collided with an element on the stage
-// can use a hash dictionary from the draw method, can keep updating {"x":value,"ref":[obj.id,obj.id...]},{"y":value,"ref":[obj.id,obj.id...]}
-// since a hash is an instant lookup, it would save on the computation time to test for collisions
-
-Mario.prototype.store_positions = function(x,y,object)
+Mario.prototype.hitTest = function hitTest(obja,objb)
 {
-  //this.positions_cache
-  if(typeof this.positions_cache.x === "undefined")
+  // obja : obja.x, obja.y, obja.width, obja.height
+  // objb : objb.x, objb.y, objb.width, objb.height
+  
+  // test that obja is touching objb
+  var hitX = false;
+  var hitY = false;
+  var hitAreaNoise = .25;
+  if(Math.floor(obja.x)+hitAreaNoise == Math.floor(objb.x)+hitAreaNoise || Math.floor(obja.x)-hitAreaNoise == Math.floor(objb.x)-hitAreaNoise || Math.floor(obja.x) == Math.floor(objb.x))
   {
-    this.positions_cache.x = {};
+    hitX = true;
   }
-  if(typeof this.positions_cache.y === "undefined")
+  if(Math.ceil(obja.x)+hitAreaNoise == Math.ceil(objb.x)+hitAreaNoise || Math.ceil(obja.x)-hitAreaNoise == Math.ceil(objb.x)-hitAreaNoise || Math.ceil(obja.x) == Math.ceil(objb.x))
   {
-    this.positions_cache.y = {};
+    hitX = true;
+  }
+  if(Math.floor(obja.y)+hitAreaNoise == Math.floor(objb.y)+hitAreaNoise || Math.floor(obja.y)-hitAreaNoise == Math.floor(objb.y)-hitAreaNoise || Math.floor(obja.y) == Math.floor(objb.y))
+  {
+    hitY = true;
+  }
+  if(Math.ceil(obja.y)+hitAreaNoise == Math.ceil(objb.y)+hitAreaNoise || Math.ceil(obja.y)-hitAreaNoise == Math.ceil(objb.y)-hitAreaNoise || Math.ceil(obja.y) == Math.ceil(objb.y))
+  {
+    hitY = true;
+  }
+  if(hitX && hitY)
+  {
+    return {"result":true,"x":obja.x,"y":obja.y};
+  }
+  else
+  {
+    return {"result":false};
   }
 }
 
