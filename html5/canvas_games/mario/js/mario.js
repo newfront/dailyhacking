@@ -231,7 +231,7 @@ Mario.prototype.game_event = function game_event(event)
   switch(event.type)
   {
     case "move":
-      console.log("mario is moving. let's keep updating the canvas");
+      //console.log("mario is moving. let's keep updating the canvas");
       //event.target.draw();
     break;
   }
