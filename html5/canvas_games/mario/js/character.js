@@ -416,3 +416,44 @@ Character.prototype.remove = function()
   // remove the character from the display list, remove from memory
   // if the type is hero, remove triggers game_over for game singleton
 }
+
+// override collision method
+// collision
+Character.prototype.collision = function collision(obj)
+{
+  // collision right,left,up,down
+  if(this.jumping)
+  {
+    this.jump_speed = 0;
+  }
+  if(this.x < obj["x"])
+  {
+    //console.log("collision right side");
+  }
+  else
+  {
+    //console.log("collision left side");
+  }
+  if(this.y < obj["y"])
+  {
+    console.log("collision below");
+    if(this.jumping)
+    {
+      this.jump_speed = 0;
+      this.jumping = false;
+      this.walking = true;
+    }
+  }
+  else
+  {
+    //console.log("collision above");
+    /*
+    if(this.jumping)
+    {
+      this.jump_speed = 0;
+      this.jumping = false;
+    }
+    */
+  }
+  
+}
