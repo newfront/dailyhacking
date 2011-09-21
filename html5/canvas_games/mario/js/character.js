@@ -139,45 +139,54 @@ Character.prototype.init = function init()
   {
     if(this.name.match(/mario/i))
     {
+      // add event listeners
+      add_event_listener(character,character.eventListener);
       // we can decorate Character
       this.updateDrawable();
     }
-    // else could be enemy, etc
-    // bind to canvas div around canvas so there will be non blocking ui
+    // can be enemy, or CPU based companion, or web-socket friend playing with you.
+  }
+}
+
+// registered callback in Character.init()
+// can now react to global events
+Character.prototype.eventListener = function eventListener(event)
+{
+  var character = this;
+  console.log(event);
+  switch(event.type)
+  {
+    case "keyup":
+      // walking
+      if(!this.jumping)
+      {
+        // if mario was walking, but then jumped, we need to keep mario walking after he lands
+        // this is expected by users
+        console.log("walking is now no longer true");
+        character.setState(0);
+      }
+    break;
     
-    if(typeof window != "undefined")
-    {
-      window.onkeydown = function(event)
+    case "keydown":
+      if(event.keyCode == 37)
       {
-        if(event.keyCode == 37)
-        {
-          // left key
-          character.move_left();
-        }
-        if(event.keyCode == 39)
-        {
-          // right key
-          character.move_right();
-        }
-        if(event.keyCode == 65)
-        {
-          character.jump();
-        }
-        if(event.keyCode == 83)
-        {
-          character.squat();
-        }
+        // left key
+        character.move_left();
       }
-      window.onkeyup = function(event)
+      if(event.keyCode == 39)
       {
-        character.walking = false;
-        character.standing = true;
+        // right key
+        character.move_right();
       }
-    }
-    else
-    {
-      console.log("you have no window object to work with...");
-    }
+      if(event.keyCode == 65)
+      {
+        character.jump();
+      }
+      if(event.keyCode == 83)
+      {
+        character.squat();
+      }
+    break;
   }
 }
 
@@ -190,6 +199,11 @@ Character.prototype.getImg = function getImg()
 // set the characters current state
 Character.prototype.setState = function setState(state_id)
 {
+  if(state_id === 0)
+  {
+    this.walking = false;
+    this.standing = true;
+  }
   this.state = state_id;
   this.updateDrawable();
 }
@@ -216,7 +230,7 @@ Character.prototype.updateDrawable = function updateDrawable()
   if(state === "walking")
   {
     //console.log(drawable.img[this.anim_sequence]);
-    console.log(this.anim_sequence);
+    //console.log(this.anim_sequence);
     this.setImg(drawable.img[this.anim_sequence]);
     if(this.anim_sequence === 0)
     {
@@ -238,17 +252,13 @@ Character.prototype.updateDrawable = function updateDrawable()
 
 Character.prototype.jump = function jump()
 {
-  if(!this.jumping)
+  if(!this.jumping && !this.falling)
   {
     this.jumping = true;
     // set character action state (jumping)
     this.setState(2);
     this.jump_speed = this.jump_velocity/game_config.tile_height;
     this.fall_speed = 0;
-  }
-  else
-  {
-    // ignore since character is already jumping
   }
 }
 
@@ -259,7 +269,12 @@ Character.prototype.render = function render()
   // add crouching logic here
   // add running logic here
   // add jumping logic here
+  
+  // update rendering
   var state = this.getState(true);
+  this.updateDrawable();
+  
+  // character can jump
   if(this.jumping){
     //console.log("character is jumping");
     this.setPosition(this.x,this.y - this.jump_speed);
@@ -267,40 +282,36 @@ Character.prototype.render = function render()
     
     if(this.jump_speed <= 0)
     {
-      console.log("jump_speed is 0");
+      //console.log("jump_speed is 0");
       this.jumping = false;
       this.falling = true;
       this.fall_speed = 1;
     }
   }
   
+  // gravity saves us here!
   if(this.falling)
   {
-    console.log("character is falling");
-    console.log("character y: "+this.y);
-    console.log("game_config.tile_height: "+game_config.tile_height);
-    console.log("character height: "+this.height);
-    
-    // 13.22
-    // bottom of game is 18
-    // game_config.height/16-2
-    // 18 - 2 - 1 = 15
-    //16
+    // if the object.y is less than canvas.height/multiplier-ground_height-object.height/multiplier
     if(this.y < game_config.height/16-2-1)
     {
-      console.log(this.y);
+      
       this.setPosition(this.x,this.y + this.fall_speed);
-      //this.setPosition(this.x,this.y + this.fall_speed);
       this.fall_speed += game_config.gravity;
     }
     else
     {
       this.setYPos(game_config.height/16-2);
-      console.log("falling is finished");
-      console.log(this.y);
       this.falling = false;
       this.fall_speed = 0;
-      this.setState(0);
+      if(this.walking)
+      {
+        this.setState(1);
+      }
+      else
+      {
+        this.setState(0);
+      }
     }
   }
   
@@ -312,6 +323,7 @@ Character.prototype.render = function render()
     
     case "walking":
       // mario is walking
+      //console.log("mario is walking");
     break;
     
     case "standing":
@@ -327,6 +339,25 @@ Character.prototype.render = function render()
     break;
   }
   
+  if(this.walking)
+  {
+    //console.log("mario is walking");
+    if(this.direction == "right")
+    {
+      if(this.x+this.speed <= 45)
+      {
+        this.x += this.speed;
+      }
+    }
+    else if(this.direction == "left")
+    {
+      if(this.x-this.speed >= 0)
+      {
+        this.x -= this.speed;
+      }
+    }
+  }
+  
 }
 
 Character.prototype.squat = function()
@@ -336,54 +367,25 @@ Character.prototype.squat = function()
 
 Character.prototype.move_right = function()
 {
-  var scope = this;
-  console.log(scope);
-  console.log("character x"+this.x);
-  var state = this.getState(true);
-  
-  if(state === "standing")
+  if(this.getState(true) === "standing")
   {
-    this.setState(1); // walking
+    this.setState(1);
   }
-  
-  // if mario is walking, start to update internal animation
-  
-  if(state === "walking")
-  {
-    this.updateDrawable();
-  }
-  console.log(game_config.width/16);
-  console.log("character x: "+this.x);
-  console.log("character speed: "+this.speed);
-  if(this.x+this.speed <= 45)
-  {
-    console.log("current speed: "+this.speed);
-    this.x += this.speed;
-  }
-  //console.log(this.getState(true));
-  //console.log(this.getImg());
-  
-  if(typeof this.listener === "object")
-  {
-    console.log("new event occured.");
-    //console.log(typeof this.listener.callback);
-    this.listener.callback.call(null,{"type":"move","target":this.listener.scope});
-  }
+  this.walking = true;
+  this.direction = "right";
+  this.standing = false;
 }
 
 // move character to the left
 Character.prototype.move_left = function()
 {
-  if(this.x-this.speed >= 0)
+  if(this.getState(true) === "standing")
   {
-    this.x -= this.speed;
+    this.setState(1);
   }
-  // don't even need the listener unless maybe to update collision detection
-  if(typeof this.listener === "object")
-  {
-    console.log("new event occured.");
-    this.listener.callback.call(null,{"type":"move","target":this.listener.scope});
-  }
+  this.walking = true;
+  this.direction = "left";
+  this.standing = false;
 }
 
 // get the characters current speed
