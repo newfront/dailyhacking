@@ -153,7 +153,6 @@ Character.prototype.init = function init()
 Character.prototype.eventListener = function eventListener(event)
 {
   var character = this;
-  console.log(event);
   switch(event.type)
   {
     case "keyup":
@@ -162,7 +161,6 @@ Character.prototype.eventListener = function eventListener(event)
       {
         // if mario was walking, but then jumped, we need to keep mario walking after he lands
         // this is expected by users
-        console.log("walking is now no longer true");
         character.setState(0);
       }
     break;
