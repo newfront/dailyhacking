@@ -22,7 +22,7 @@ var Mario = (function Mario(level,lives,continues){
     // keeps track of objects within the game
     this.elements = [];
     
-    this.positions_cache = {};
+    this.weighted_elements = {};
   };
   
 }());
@@ -155,12 +155,23 @@ Mario.prototype.draw = function draw()
   var buffer_context = buffer.getContext("2d");
   // context = this.context;
   
+  // test for collisions before drawing
+  this.find_collisions();
+  
   for(var i=0; i < objects.length; ++i)
   {
     var xpos = objects[i].getXPos()*16;
     var ypos = objects[i].getYPos()*16;
     var img_ref;
     // if character, needs to override this method, add the ability to draw based off of current state based image ( walking, standing, running, jumping, crouching, dying)
+    if(objects[i].hasWeight())
+    {
+      if(typeof this.weighted_elements[objects[i].getId()] === "undefined")
+      {
+        // try just adding the object's that have weight
+        this.weighted_elements[objects[i].getId()] = objects[i];
+      }
+    }
     if(objects[i].getImg() === null)
     {
       img_ref = window.environment_db.elements[objects[i].type][objects[i].kind].img;
@@ -170,6 +181,8 @@ Mario.prototype.draw = function draw()
       img_ref = objects[i].getImg();
       if(objects[i].object_type === "character")
       {
+        
+        //console.log(objects[i].hasWeight());
         objects[i].render();
       }
     }
@@ -187,6 +200,38 @@ Mario.prototype.draw = function draw()
   delete buffer;
   delete buffer_context;
   delete images;
+}
+
+// 
+Mario.prototype.find_collisions = function find_collisions()
+{
+  for(var collidable in this.weighted_elements)
+  {
+    var obja = this.weighted_elements[collidable];    
+    // hit test each element with each element on the screen
+    // if collision, call callback on element
+    
+    for(var col in this.weighted_elements)
+    {
+      var objb = this.weighted_elements[col];
+      if(obja === objb)
+      {
+        //console.log("objects are the same");
+      }
+      else
+      {
+        // need to account for object width and height
+        // Need to do hittest within the range of the object
+        // Range[obja.x - obja.width/2 ... obja.x + obja.width/2]
+        // Range[objb.x - objb.width/2 ... objb.x + objb.width/2]
+        if(Math.floor(obja.x) == Math.floor(objb.x) && Math.floor(obja.y) === Math.floor(objb.y))
+        {
+          console.log("hitDetected between: "+obja.object_type+" and "+objb.object_type);
+        }
+      }
+    }
+    
+  }
 }
 
 // hit test / collisions
