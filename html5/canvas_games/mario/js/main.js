@@ -1,3 +1,45 @@
+/*
+ Attach Main Event Listener to div #game
+*/
+//var event_region = document.getElementById("game");
+window.addEventListener("keyup",eventHandler,false);
+window.addEventListener("keydown",eventHandler,true);
+window.addEventListener("click",eventHandler,false);
+
+// store event listeners
+var event_listeners = [];
+// {"object":object,"callback":callback}
+
+// register callbacks
+function add_event_listener(object,callback)
+{
+  var listener = {};
+  listener.object = object;
+  listener.callback = callback;
+  event_listeners.push(listener);
+  delete listener;
+}
+
+// remove callbacks
+function remove_event_listener(object)
+{
+  // loop through event_listeners and remove object where "object" == object
+}
+
+// single eventHandler method for all keyboard events / clicks
+function eventHandler(event)
+{
+  if (event_listeners.length > 0)
+  {
+    for(var i=0;i<event_listeners.length;++i)
+    {
+      var obj = event_listeners[i].object;
+      event_listeners[i].callback.call(obj,event);
+      //event_listeners[i].callback(event);
+    }
+  }
+}
+
 var Game = {
   dependencies: {
     "path":"js",
