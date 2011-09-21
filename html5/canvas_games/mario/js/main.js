@@ -123,47 +123,20 @@ function initGame()
   Game.canvas = document.getElementById("mario_game");
   Game.canvas.width = game_config.width;
   Game.canvas.height = game_config.height;
-
   Game.context = Game.canvas.getContext("2d");
-
-  var tgame = document.getElementById("game");
-  tgame.addEventListener('click',clickHandler,false);
-
-  function clickHandler(event)
-  {
-    console.log(event);
-    // altKey = false
-    // bubbles = true
-    // button = 0
-    // cancelBubble = false
-    // cancelable = true
-    //charCode = 0
-    // clientX = px
-    // clientY = px
-    // ctrlKey = true,false
-    // currentTarget = null
-    // layerX
-    // layerY
-    // offsetX
-    // offsetY
-    // pageX
-    // pageY
-    // screenX
-    // screenY
-    // shiftKey = false
-    // metaKey = command key (apple key on apple)
-  }
-
   // encapsulate the level builder
   Game.levelbuilder = {}
+  
   Game.levelbuilder.buildBlocks = function(){
       /*
        Build a single block
+       Test non-passable (has mass)
       */
       var elem = new Element();
       elem.setType("block");
       elem.setKind("brick_brown");
       elem.setPosition(12,game_config.height/16-4);
+      elem.setWeight(true); // if it has weight, it can block (obsticle)
       //add a block
       Game.game.addElement(elem);
   };
@@ -190,9 +163,7 @@ function initGame()
   {
     //type,kind,posx,posy,speed
     var mario = new Character("hero","mario",0,game_config.height/16-2,2);
-    // mario.addCallback...
-    // mario.init()
-    //game.addElement(mario);
+    mario.setWeight(true)
     mario.init();
     //console.log(mario.getImg());
     Game.game.addElement(mario);
@@ -200,6 +171,9 @@ function initGame()
 
     mario.register_listener(Game.game,Game.game.game_event);
     Game.game.draw();
+    
+    // show collidables
+    //Game.game.find_collisions();
   }
 
   Game.game = new Mario(1,3,3);
