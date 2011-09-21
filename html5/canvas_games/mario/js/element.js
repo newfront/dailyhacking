@@ -14,6 +14,7 @@ var Element = (function(scope,callback){
     this.kind = "default";
     this.img = null;
     this.object_type = "element";
+    this.has_weight = false;
     if(typeof callback != "undefined" && typeof scope != "undefined")
     {
       callback.apply(scope);
@@ -63,6 +64,18 @@ var Element = (function(scope,callback){
 Element.prototype.getImg = function getImg()
 {
   return this.img;
+}
+
+// does this element have weight?
+Element.prototype.hasWeight = function hasWeight()
+{
+  return this.has_weight;
+}
+
+// update an element to make it passable
+Element.prototype.setWeight = function setWeight(weight)
+{
+  this.has_weight = weight;
 }
 
 // set the current drawable image
