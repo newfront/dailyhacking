@@ -161,3 +161,9 @@ Element.prototype.getKind = function getKind()
 {
   return this.kind;
 }
+
+// collision
+Element.prototype.collision = function collision(obj)
+{
+  console.log("collided with obj: "+obj);
+}
