@@ -216,6 +216,7 @@ Mario.prototype.draw = function draw()
 // 
 Mario.prototype.find_collisions = function find_collisions()
 {
+  var character_notified = false;
   for(var collidable in this.weighted_elements)
   {
     var obja = this.weighted_elements[collidable];    
@@ -232,11 +233,20 @@ Mario.prototype.find_collisions = function find_collisions()
       else
       {
         var didHit = this.hitTest(obja,objb);
-        if(didHit.result)
+        if(didHit.result && !character_notified)
         {
           //console.log("collision detected");
           //console.log(didHit);
-          objb.collision(didHit);
+          if(objb.object_type === "character")
+          {
+            console.log("notifying character");
+            objb.collision(true,didHit);
+          }
+          character_notified = true;
+        }
+        else
+        {
+          objb.collision(false,didHit);
         }
       }
     }
@@ -250,33 +260,172 @@ Mario.prototype.hitTest = function hitTest(obja,objb)
   // objb : objb.x, objb.y, objb.width, objb.height
   
   // test that obja is touching objb
+  
   var hitX = false;
   var hitY = false;
-  var hitAreaNoise = .25;
-  if(Math.floor(obja.x)+hitAreaNoise == Math.floor(objb.x)+hitAreaNoise || Math.floor(obja.x)-hitAreaNoise == Math.floor(objb.x)-hitAreaNoise || Math.floor(obja.x) == Math.floor(objb.x))
+  var hitAreaNoise = .085;
+  
+  //{"name":"mario","x":x,"y":y,"width":width,"height":height}
+  var stat1 = {};
+  stat1.name = obja.kind;
+  stat1.x = obja.x;
+  stat1.y = obja.y;
+  stat1.width = obja.width;
+  stat1.height = obja.height;
+  
+  var stat2 = {};
+  stat2.name = obja.kind;
+  stat2.x = obja.x;
+  stat2.y = obja.y;
+  stat2.width = obja.width;
+  stat2.height = obja.height;
+  
+  //update_stats(stat1);
+  //update_stats(stat2);
+  
+  var htests = {};
+  // x (low)
+  htests.lowx = "type";
+  htests.obja_lrx = Math.floor(obja.x)+hitAreaNoise; //right
+  htests.objb_lrx = Math.floor(objb.x)+hitAreaNoise; //right
+  htests.obja_llx = Math.floor(obja.x)-hitAreaNoise; //left
+  htests.objb_llx = Math.floor(objb.x)-hitAreaNoise; //left
+  
+  htests.highx = "type";
+  htests.obja_hrx = Math.ceil(obja.x)+hitAreaNoise;
+  htests.objb_hrx = Math.ceil(objb.x)+hitAreaNoise;
+  htests.obja_hlx = Math.ceil(obja.x)-hitAreaNoise;
+  htests.objb_hlx = Math.ceil(objb.x)-hitAreaNoise;
+   
+  htests.x = "type";
+  htests.objax = Math.floor(obja.x);
+  htests.objbx = Math.floor(objb.x);
+  // y
+  htests.lowy = "type";
+  htests.obja_lry = Math.floor(obja.y)+hitAreaNoise;
+  htests.objb_lry = Math.floor(objb.y)+hitAreaNoise;
+  htests.obja_lly = Math.floor(obja.y)-hitAreaNoise;
+  htests.objb_lly = Math.floor(objb.y)-hitAreaNoise;
+  
+  htests.highy = "type";
+  htests.obja_hry = Math.ceil(obja.y)+hitAreaNoise;
+  htests.objb_hry = Math.ceil(objb.y)+hitAreaNoise;
+  htests.obja_hly = Math.ceil(obja.y)-hitAreaNoise;
+  htests.objb_hly = Math.ceil(objb.y)-hitAreaNoise;
+  
+  htests.y = "type"
+  htests.objay = Math.floor(obja.y);
+  htests.objby = Math.floor(objb.y);
+  
+  //update_stats(htests);
+  var hit_result = {};
+  if(htests.obja_lrx == htests.objb_lrx)
   {
     hitX = true;
-  }
-  if(Math.ceil(obja.x)+hitAreaNoise == Math.ceil(objb.x)+hitAreaNoise || Math.ceil(obja.x)-hitAreaNoise == Math.ceil(objb.x)-hitAreaNoise || Math.ceil(obja.x) == Math.ceil(objb.x))
+    hit_result.x = "(floor) right (add)";
+  } else if(htests.obja_llx == htests.objb_llx)
+  {
+    hitX = true; 
+    hit_result.x = "(floor) left (minus)";
+  } else if(htests.obja_hrx == htests.objb_hrx)
   {
     hitX = true;
+    hit_result.x = "(ceil) right (add)";
+  } else if(htests.obja_hlx == htests.objb_hlx)
+  {
+    hitX = true;
+    hit_result.x = "(ceil) left (minus)";
+  } else if(htests.objax === htests.objbx)
+  {
+    hitX = true;
+    hit_result.x = "(floor) match";
   }
-  if(Math.floor(obja.y)+hitAreaNoise == Math.floor(objb.y)+hitAreaNoise || Math.floor(obja.y)-hitAreaNoise == Math.floor(objb.y)-hitAreaNoise || Math.floor(obja.y) == Math.floor(objb.y))
+  else
+  {
+    hitX = false;
+  }
+  
+  if(htests.obja_lry == htests.objb_lry)
   {
     hitY = true;
-  }
-  if(Math.ceil(obja.y)+hitAreaNoise == Math.ceil(objb.y)+hitAreaNoise || Math.ceil(obja.y)-hitAreaNoise == Math.ceil(objb.y)-hitAreaNoise || Math.ceil(obja.y) == Math.ceil(objb.y))
+    hit_result.y = "(floor) right (add)";
+  } 
+  else if(htests.obja_lly == htests.objb_lly)
   {
     hitY = true;
+    hit_result.y = "(floor) left (minus)";
   }
+  else if(htests.obja_hly == htests.objb_hry)
+  {
+    hitY = true;
+    hit_result.y = "(ceil) left (add)";
+  } 
+  else if(htests.obja_hly == htests.objb_hly)
+  {
+    hitY = true;
+    hit_result.y = "(ceil) left (minus)";
+  } 
+  else if(htests.objay === htests.objby)
+  {
+    //console.log("hity equals");
+    hitY = true;
+    hit_result.y = "(floor) match";
+  }
+  else
+  {
+    hitY = false;
+  }
+  
+  /*
+  (0,0)                    (x+width,0)
+  +----------------------------------+
+  |                                  |
+  |                                  |
+  |                                  |
+  |                                  |
+  |                                  |
+  |            Hit Area              |
+  |                                  |
+  |                                  |
+  |                                  |
+  |                                  |
+  +----------------------------------+
+  (0,y+height)             (x+width,y+height)
+  */
+  
+  
   if(hitX && hitY)
   {
-    return {"result":true,"x":obja.x,"y":obja.y};
+    update_stats(htests);
+    console.log("x");
+    console.log("obja.x: "+obja.x);
+    console.log("objb (x+w) "+(objb.x + objb.width));
+    console.log("objb.x: "+objb.x);
+    console.log("obja (x+w) "+(obja.x + obja.width));
+    console.log("y");
+    console.log("obja.y: "+obja.y);
+    console.log("objb (y+h) "+(objb.y + objb.height));
+    console.log("objb.y: "+objb.y);
+    console.log("obja (y+h) "+(obja.y + obja.height));
+    return {"result":true,"atype":obja.object_type,"ax":obja.x,"ay":obja.y,"btype":objb.object_type,"bx":objb.x,"by":objb.y,"info":hit_result};
   }
   else
   {
     return {"result":false};
   }
+  
+  
+  /*
+  if (obja.x < objb.x + objb.width && obja.x + obja.width > objb.x && obja.y < objb.y + objb.height && obja.y + obja.height > objb.y)
+  {
+    console.log("obja.x "+obja.x +"< objb.x + objb.width "+objb.x + objb.width);
+    console.log("obja.x + obja.width "+(obja.x + obja.width)+ " > "+objb.x);
+    console.log("obja.y "+obja.y+ " < objb.y + objb.height "+(objb.y + objb.height));
+    console.log("obja.y + obja.height " + obja.y + obja.height + " > "+ objb.y);
+    return true;
+  }
+  return false;
+  */
 }
 
 // start Mario rendering engine
@@ -297,14 +446,14 @@ Mario.prototype.stop = function()
 
 Mario.prototype.game_event = function game_event(event)
 {
-  //console.log("New Event: "+event.type);
+  console.log("New Event: "+event.type);
   //console.log(this);
   //console.log(event.target);
   switch(event.type)
   {
     case "move":
       //console.log("mario is moving. let's keep updating the canvas");
-      //event.target.draw();
+      event.target.draw();
     break;
   }
 }
