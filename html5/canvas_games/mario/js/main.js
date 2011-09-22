@@ -40,6 +40,33 @@ function eventHandler(event)
   }
 }
 
+// send stats to visible div
+var stats_div = document.getElementById("stats");
+
+// show mario x,y,width,height
+//{"name":"mario","x":x,"y":y,"width":width,"height":height}
+
+function update_stats(params)
+{
+  var html = "<p>";
+  for(var item in params)
+  {
+    if(params[item] === "type")
+    {
+      html += "</p><p>";
+    }
+    else
+    {
+      html += item +" : "+params[item]+" ";
+    }
+    
+  }
+  html += "</p>";
+  
+  stats_div.innerHTML = html;
+  delete html;
+}
+
 var Game = {
   dependencies: {
     "path":"js",
@@ -162,7 +189,7 @@ function initGame()
   Game.levelbuilder.addHero = function()
   {
     //type,kind,posx,posy,speed
-    var mario = new Character("hero","mario",0,game_config.height/16-2,2);
+    var mario = new Character("hero","mario",0,game_config.height/16-2,4);
     mario.setWeight(true)
     mario.init();
     //console.log(mario.getImg());
@@ -189,4 +216,5 @@ function initGame()
   
   // start rendering
   Game.game.auto_draw();
+  //Game.game.draw();
 }
