@@ -126,6 +126,9 @@ var Character = (function(type,kind,posx,posy,speed)
     
     // dying
     this.dying = false;
+    
+    // track collisions
+    this.current_collisions = {};
 
   };
 }());
@@ -372,6 +375,17 @@ Character.prototype.move_right = function()
   this.walking = true;
   this.direction = "right";
   this.standing = false;
+  
+  //this.triggerEvent(this.listener.scope,this.listener.callback,[{"type":"move","target":this.listener.scope}]);
+}
+
+// Trigger an event
+Character.prototype.triggerEvent = function(scope,callback,params)
+{
+  if(typeof callback === "function")
+  {
+    callback.apply(scope,params);
+  }
 }
 
 // move character to the left
@@ -419,41 +433,66 @@ Character.prototype.remove = function()
 
 // override collision method
 // collision
-Character.prototype.collision = function collision(obj)
+Character.prototype.collision = function collision(hit,obj)
 {
-  // collision right,left,up,down
-  if(this.jumping)
+  if(hit)
   {
-    this.jump_speed = 0;
-  }
-  if(this.x < obj["x"])
-  {
-    //console.log("collision right side");
-  }
-  else
-  {
-    //console.log("collision left side");
-  }
-  if(this.y < obj["y"])
-  {
-    console.log("collision below");
+    
     if(this.jumping)
     {
       this.jump_speed = 0;
       this.jumping = false;
-      this.walking = true;
+      this.falling = true;
     }
-  }
-  else
-  {
-    //console.log("collision above");
-    /*
-    if(this.jumping)
+    
+    // check character y vs element/enemy/particle y
+    if(obj.by > obj.ay)
     {
+      console.log("(collision y above character)");
       this.jump_speed = 0;
       this.jumping = false;
+      this.walking = false;
+      this.standing = true;
     }
-    */
+    else if(obj.by == obj.ay)
+    {
+      console.log("(collision y at character,element y)");
+    }
+    else
+    {
+      console.log("(collision y below character)");
+      if(this.falling)
+      {
+        console.log("character is falling. so stop and set y to value of collided object");
+        console.log(this);
+        this.setYPos(obj.ay-(this.height/game_config.magnifier));
+        this.falling = false;
+        this.fall_speed = 0;
+      }
+    }
+
+    // check character x vs element/enemy/particle x
+    if(obj.bx < obj.ax)
+    {
+      console.log("collision to right of character");
+    }
+    else if(obj.bx == obj.ax)
+    {
+      console.log("collision occured in middle of character and object");
+    }
+    else
+    {
+      console.log("collision occured to the left or middle of character");
+    }
+  } else if(!hit)
+  {
+    // let the character fall
+    if(!this.jumping)
+    {
+      if(!this.walking)
+      {
+        this.falling = true;
+      }
+    }
   }
-  
 }
