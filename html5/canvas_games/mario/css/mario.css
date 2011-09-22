@@ -1,6 +1,6 @@
 body
 {
-  font-size:1em;
+  font-size:.9em;
   color:#666666;
   font-family: Arial,Helvetica,sans-serif;
   margin:0;
@@ -16,4 +16,14 @@ h1,h2,h3,h4,h5,h6,p,div,ul,li,dl,dd,dt,ol,a,form,legend,label,input,button,heade
 #mario_game
 {
   background: #6490FE;
+}
+
+#stats
+{
+  overflow:auto;
+  margin-top:5px;
+  width:800px;
+  min-height:150px;
+  background:#cccccc;
+  color:#2b2b2b;
 }
