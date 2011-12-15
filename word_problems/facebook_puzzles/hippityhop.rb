@@ -13,11 +13,11 @@ def calculate_hippity_hop(number)
   
   1.upto(number.to_i){|num|
     if num % 3 == 0 and num % 5 == 0
-      puts "Hop\n"
+      puts "Hop"
     elsif num % 5 == 0
-      puts "Hophop\n"
+      puts "Hophop"
     elsif num % 3 == 0
-      puts "Hoppity\n"
+      puts "Hoppity"
     end
   }
   
