@@ -21,10 +21,7 @@ two hundred, three hundred, four hundred, five hundred, six hundred, seven hundr
 
 # map number to string equivilant where we need to
 @single = {1=>"one",2=>"two",3=>"three",4=>"four",5=>"five",6=>"six",7=>"seven",8=>"eight",9=>"nine"}
-@unique = {11=>"eleven",12=>"twelve",13=>"thirteen",18=>"eighteen"}
 @double = {10=>"ten",20=>"twenty",30=>"thirty",40=>"forty",50=>"fifty",60=>"sixty",70=>"seventy",80=>"eighty",90=>"ninety"}
-@triple = "hundred"
-@quad = "thousand"
 
 def do_int_to_string_converstion(num)
   # capture original number for int comparisons
@@ -109,7 +106,6 @@ end
 #human_friendly_word = do_int_to_string_converstion(115) #20
 #puts human_friendly_word
 #puts "the word size of #{human_friendly_word} is #{count_chars(human_friendly_word).to_s}"
-
 
 @count = 1
 @total_chars = 0
