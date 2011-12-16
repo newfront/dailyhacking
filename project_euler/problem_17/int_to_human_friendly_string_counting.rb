@@ -68,18 +68,17 @@ def do_int_to_string_converstion(num)
 end
 
 def get_int_to_word(num, length)
+  
   @word = []
-  @tmp = get_info(num,0)
-  @tmp2 = get_info(num,1)
+  @tmp = num[0].to_i
+  @tmp2 = num[1].to_i if length > 1
   
   if length == 1
     return @single[@tmp]
   elsif length == 2
+    
     # 10,20,30,40,50,60,70,80,90
-    if @double.has_key?(num.to_i)
-      #puts "yes, this is a whole two digit number: #{num.to_s}"
-      return @double[num.to_i]
-    end
+    return @double[num.to_i] if @double.has_key?(num.to_i)
     
     if num.to_i > 10 and num.to_i < 14
       return "eleven" if @tmp2 === 1
@@ -95,33 +94,9 @@ def get_int_to_word(num, length)
       @word += "-#{@single[@tmp2]}"
       return @word
     end
+    
   end
   
-end
-
-# get_info("14",2)
-# returns 4
-def get_info(num,position)
-  case num[position]
-    when "1"
-      return 1
-    when "2"
-      return 2
-    when "3"
-      return 3
-    when "4"
-      return 4
-    when "5"
-      return 5
-    when "6"
-      return 6
-    when "7"
-      return 7
-    when "8"
-      return 8
-    when "9"
-      return 9
-  end
 end
 
 def count_chars(word)
