@@ -34,7 +34,8 @@ require 'pp'
 # row two has 3 numbers
 # row three has 4 numbers
 
-@numbers = [3,7,4,2,4,6,8,5,9,3]
+#@numbers = [3,7,4,2,4,6,8,5,9,3]
+@numbers = [75,95,64,17,47,82,18,35,87,10,20,4,82,47,65,19,1,23,75,3,34,88,02,77,73,07,63,67,99,65,04,28,06,16,70,92,41,41,26,56,83,40,80,70,33,41,48,72,33,47,32,37,16,94,29,53,71,44,65,25,43,91,52,97,51,14,70,11,33,28,77,73,17,78,39,68,17,57,91,71,52,38,17,14,91,43,58,50,27,29,48,63,66,4,68,89,53,67,30,73,16,69,87,40,31,4,62,98,27,23,9,70,98,73,93,38,53,60,4,23]
 @tree = []
 
 class Node
@@ -148,12 +149,12 @@ def make_tree(tree, nodes)
       # 0,1 (count+1)
       # count,count+1
       #puts @parent[0]
-      puts "length of parent: #{@parent.size}"
+      #puts "length of parent: #{@parent.size}"
       
       for @i in 0..@parent.size-1 do
-        puts @column
+        #puts @column
         count = @count
-        puts "count: #{@count.to_s}"
+        #puts "count: #{@count.to_s}"
         first = "#{@column.to_s}_#{obj[@i].to_s}"
         last = "#{@column.to_s}_#{obj[@i+1].to_s}"
         
@@ -170,36 +171,56 @@ def make_tree(tree, nodes)
       end
       
       @parent = @new_parents
-      puts "parent node shift"
-      puts "-----------------"
+      #puts "parent node shift"
+      #puts "-----------------"
       #pp @parent
     end
-    puts "-----------"
+    #puts "-----------"
     @column += 1
   }
-  #pp @nodes
+  
   return @nodes
 end
 
 @nodes = make_tree(@tree, @nodes)
-@values = {}
-@prior = 0
-@current = 0
-@max = 0
-@level_max = 0
 
+# use dfs
+
+def dfs(node)
+  chain = ""
+  unless !node.has_children?
+    chain += "#{node.value.to_s} -> [#{node.get_children("a").value},#{node.get_children("b").value}]"
+    #puts node.value
+    #puts node.get_children("a").value
+    #puts node.get_children("b").value
+    
+    dfs(node.get_children("a"))
+    dfs(node.get_children("b"))
+    puts chain
+    puts "--------------"
+  end
+end
+
+#@nodes.each{|key, node|
+#  puts key
+#}
+dfs(@nodes["0_75"])
+
+=begin
 @nodes.each{|key, node|
-  @skip = false
-  puts key
-  puts "---------"
-  @level = key.split("_")
-  puts "Level: #{@level[0].to_s}"
   
-  puts "#{@level[0].to_s} - #{@prior.to_s}"
+  @skip = false
+  #puts key
+  #puts "---------"
+  @level = key.split("_")
+  #puts "Level: #{@level[0].to_s}"
+  
+  #puts "#{@level[0].to_s} - #{@prior.to_s}"
   
   if @level[0] != @prior
     @prior = @level[0]
-    puts "at new level"
+    #puts "at new level"
+    @max = node.value if @max === 0
     puts "max from last level: #{@max.to_s}"
     @level_max = @max
     @max = 0
@@ -217,10 +238,12 @@ end
       vals["parent"] = node.value
       vals["ca"] = node.get_children("a").value
       vals["cb"] = node.get_children("b").value
-      puts vals["parent"]
-      puts vals["ca"]
-      puts vals["cb"]
-      puts "----------------"
+      
+      #puts vals["parent"]
+      #puts vals["ca"]
+      #puts vals["cb"]
+      #puts "----------------"
+      
       sum = vals["parent"] + vals["ca"]
       sum2 = vals["parent"] + vals["cb"]
     
@@ -251,9 +274,9 @@ end
         end
       end
     else
-      puts "skipping"
+      #puts "skipping"
     end
-    puts "---------"
+    #puts "---------"
     
   end
   #puts node.inspect
@@ -281,4 +304,6 @@ puts "best path is: #{@best_path}"
   @sum += val
 }
 puts "sum of path is: #{@sum.to_s}"
+=end
+
 
