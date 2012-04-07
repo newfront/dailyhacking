@@ -1,0 +1,46 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww16800\viewh7580\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 FFMPEG ENCODING OPTIONS 
+\b0 (to libx264, high quality)\
+\
+ffmpeg -i bbb_trailer_iphone.m4v -s cif -sameq -vcodec libx264 -vpre slow -b 300k -r 24 -threads 0 -aspect 4:3 -s cif -padtop 44 -padbottom 46 -padcolor 000000  -f h264 test_to_mov_cif.mov\
+\
+ffmpeg -i bbb_trailer_iphone.m4v -vcodec libx264 -vpre slow -threads 0 -f h264 test_bbb_to_raw_for_fsv.h264\
+\
+
+\b (used) 
+\b0 ffmpeg -i bbb_trailer_iphone.m4v -vcodec libx264 -vpre slow -threads 0 -b 300k -r 29 -f h264 test_bbb_to_raw_for_fsv.h264\
+\
+
+\b (stream copy)
+\b0  ffmpeg -f h264 -s cif -b 300k -r 29 -i test_bbb_to_raw_for_fsv.h264 -scodec h264 -s cif /Users/Scott/Desktop/test_copy_stream.mov\
+\
+
+\b FFMPEG RAW ELEMENTARY BITSTREAM TO RTP\
+(libavformat/rtpproto.c)\
+\
+
+\b0 ffmpeg -f h264 -s cif -b 300k -r 29 -i test_bbb_to_raw_for_fsv.h264 -scodec h264 -f rtp rtp://127.0.0.1:6000?option=pkt_size=1500&connect=1\
+\
+(libavformat/sdp.c)\
+\
+struct sdp_session_level \{\
+    int sdp_version;      /**< protocol version (currently 0) */\
+    int id;               /**< session ID */\
+    int version;          /**< session version */\
+    int start_time;       /**< session start time (NTP time, in seconds),\
+                               or 0 in case of permanent session */\
+    int end_time;         /**< session end time (NTP time, in seconds),\
+                               or 0 if the session is not bounded */\
+    int ttl;              /**< TTL, in case of multicast stream */\
+    const char *user;     /**< username of the session's creator */\
+    const char *src_addr; /**< IP address of the machine from which the session was created */\
+    const char *src_type; /**< address type of src_addr */\
+    const char *dst_addr; /**< destination IP address (can be multicast) */\
+    const char *dst_type; /**< destination IP address type */\
+    const char *name;     /**< session name (can be an empty string) */\
+\};}
