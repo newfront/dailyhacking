@@ -1,0 +1,15 @@
+Basic Usage
+1. cd to the directory where you checked out media/video (this directory)
+
+To Parse Patterns in a Stream File
+> ruby parse_h264_for_patterns.rb /path/to/stream/file.[pcap, stream, dump]
+
+To Parse Example RTP Headers to find true RTP headers in a list of illegals and erroneous
+> ruby parse_h264_for_headers.rb
+
+- This is currently just a collection of real and broken RTP sequences in hex. You can add more headers to this, or test the collection of headers as STDIN or ARGV[n]
+
+To Parse an actual FSV (FreeSwitch Video File) - Can be easily updated to just parse RTP
+> ruby fsv_to_raw_h264.rb ./fsv/record_fsv_h264.fsv
+
+Notes: The output of the fsv_to_raw_h264.rb will generate an depacketized raw h264 video file as output. Ensure this directory allows ruby write permissions.

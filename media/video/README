@@ -1,10 +1,6 @@
-Basic Usage
-1. cd to the directory where you checked out media/video (this directory)
+This is a collection of Video Parsing Libs created to test parse speed in the Ruby Programming Language. 
 
-To Parse Patterns in a Stream File
-> ruby parse_h264_for_patterns.rb /path/to/stream/file.[pcap, stream, dump]
+You are welcome to use the understandings and learnings from this set of research free of charge.
 
-To Parse Example RTP Headers to find true RTP headers in a list of illegals and erroneous
-> ruby parse_h264_for_headers.rb
-
-- This is currently just a collection of real and broken RTP sequences in hex. You can add more headers to this, or test the collection of headers as STDIN or ARGV[n]
+Cheers,
+Scott Haines
