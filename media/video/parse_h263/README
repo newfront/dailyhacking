@@ -1,0 +1,12 @@
+This example shows how to depacketize a stream capture file (think pcap), in this case the file format is the fsv (Freeswitch Video Format for Freeswitch SIP Server)
+
+You can easily modify the read_fsv_to_bin.rb file to ignore the fsv header and just parse your RTP capture file. 
+
+- Note: This depacketizer is for h263 / RTP packetization.
+
+The output of this parser will be a new file of raw h263. ( You can feed this into FFMPEG or GStreamer to generate any movie file you want )
+
+These learnings can be used free of charge. 
+
+Cheers,
+Scott Haines 
