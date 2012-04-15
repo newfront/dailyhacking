@@ -135,14 +135,28 @@ public class List {
 	public void remove(ListItem target)
 	{
 		System.out.println("Remove: " + target.getData() + " from the list");
+		
+		// if the target is currently the min or max value, let's reset
+		if (this.max() == (long) target.getData())
+			this.max = 0;
+		if (this.min() == (long) target.getData())
+			this.min = -1;
+		
 		// iterate through the list until the target is reached
-		ListItem beforeTarget = this.getLinkingItem(target);
-		ListItem afterTarget = target.getNext();
-
-		System.out.println("target: " + target.getData());
-		System.out.println("before target: " + beforeTarget.getData());
-		System.out.println("after target: " + afterTarget.getData());
-		beforeTarget.setNext(afterTarget);
+		ListItem beforeTarget;
+		ListItem afterTarget;
+		
+		if (this.head() == target)
+		{
+			head = target.getNext();
+		} else if (this.tail() == target) {
+			beforeTarget = this.getLinkingItem(target);
+			tail = beforeTarget;
+		} else {
+			beforeTarget = this.getLinkingItem(target);
+			afterTarget = target.getNext();
+			beforeTarget.setNext(afterTarget);
+		}
 		length -= 1;
 		this.updateMinMax();
 	}

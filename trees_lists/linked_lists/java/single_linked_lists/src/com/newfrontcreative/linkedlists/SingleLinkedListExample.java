@@ -81,13 +81,16 @@ public class SingleLinkedListExample {
 			cur = cur.getNext();
 		}
 		System.out.println("-------- List ----------");
-		list.remove(list.head().getNext());
-
+		//list.remove(list.head().getNext());
+		//list.remove(list.head());
+		list.remove(list.tail());
 		cur = list.head();
 		for (int i = 0; i < list.length(); i++) {
 			System.out.println("list["+i+"] = " + cur.getData());
 			cur = cur.getNext();
 		}
+		list.remove(list.tail());
+		System.out.println("max: " + list.max() + " min: " + list.min());
 
 	}
 
