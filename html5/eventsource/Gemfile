@@ -1,0 +1,8 @@
+source :rubygems
+gem "eventmachine"
+gem "em-http-request"
+gem "sinatra"
+gem "thin"
+gem "json"
+gem "thin"
+gem "async_sinatra"

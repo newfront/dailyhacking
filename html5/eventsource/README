@@ -1,0 +1,13 @@
+running the server is simple
+> thin start
+
+users can connect through the url /
+this will automatically log them into a session, using eventsource 301 redirect
+
+pushing a notification is currently just for example
+
+/notification/:uuid/new where uuid is the uuid of a user's session
+
+If a user is connected without any notifications, then NotificationQueue will throttle the Javascript EventSource reply field up to 50000. This can be updated currently in the libs/notification_queue.rb, I could move to config file at a later point.
+
+Enjoy.
