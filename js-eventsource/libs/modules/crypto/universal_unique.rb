@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 =begin
   generate universally unique id
   version 4 (random)
