@@ -19,7 +19,7 @@ class App < Sinatra::Base
 
 	# inject into all responses
 	before do
-		response.headers['Access-Control-Allow-Origin'] = "*.the111th.com"
+		response.headers['Access-Control-Allow-Origin'] = "requested-domain.com"
 		response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
 		response.headers['Access-Control-Allow-Credentials'] = 'true'
 		response.headers['Access-Control-Allow-Headers'] = 'origin, content-type'
