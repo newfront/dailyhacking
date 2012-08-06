@@ -28,8 +28,13 @@ db_uri =  "mysql://#{db.username}:#{db.password}@#{db.host}:#{db.port}/#{db.data
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default,db_uri)
-
-DataMapper.finalize
+#if config.databases.migrations
+#  DataMapper.auto_migrate! # will kill records, or create your database the first time through
+#  build_classifications
+#else
+#  DataMapper.auto_upgrade! # will not kill data
+#end
+#DataMapper.finalize
 
 def build_classifications
   a = Classification.new
@@ -51,12 +56,9 @@ def build_classifications
   end
 end
 
-if config.databases.migrations
-  DataMapper.auto_migrate! # will kill records, or create your database the first time through
-  build_classifications
-else
-  DataMapper.auto_upgrade! # will not kill data
-end
+
+
+
 #
 
 # sinatra bindings

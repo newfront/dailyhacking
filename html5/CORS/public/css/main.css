@@ -1,0 +1,17 @@
+#wrapper {
+	background: #2b2b2b;
+	position: relative;
+}
+
+.theme-lite {
+	color: #eee;
+}
+
+.theme-lite header {
+	background: #acacac;
+	padding: 5px 10px;
+}
+
+.theme-lite .main {
+	padding: 5px 10px;
+}
