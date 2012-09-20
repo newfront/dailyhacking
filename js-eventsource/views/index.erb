@@ -1,0 +1,178 @@
+<!--
+Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+
+Redistribution and use of this software in source and binary forms, 
+with or without modification, are permitted provided that the following 
+conditions are met:
+
+* Redistributions of source code must retain the above
+  copyright notice, this list of conditions and the
+  following disclaimer.
+
+* Redistributions in binary form must reproduce the above
+  copyright notice, this list of conditions and the
+  following disclaimer in the documentation and/or other
+  materials provided with the distribution.
+
+* Neither the name of Yahoo! Inc. nor the names of its
+  contributors may be used to endorse or promote products
+  derived from this software without specific prior
+  written permission of Yahoo! Inc.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS 
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>eventSource</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Scott Haines" />
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<script src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js"></script>
+		<style>
+		body {
+		    margin:0;
+		    padding:0;
+		    background: #2b2b2b;
+		    position: relative;
+		    font-family: Helvetica;
+		}
+		
+		header {
+		    text-align: center;
+		}
+		
+		header h3 {
+		    color: #ffffff;
+		    font-size: 0.7em;
+		}
+		
+		#main {
+		    width: 300px;
+		    height: 300px;
+		    overflow: auto;
+		    background: #4b4b4b;
+		    border: 1px solid #fff;
+		    margin: auto;
+		    text-align: center;
+		}
+		
+		#main > div {
+		    padding: 10px;
+		    color: #fbfbfb;
+		}
+		</style>
+	</head>
+	<body>
+		<div>
+			<header>
+			    <h3>EventSource Prototype</h3>
+			</header>
+			<nav>
+			</nav>
+			<div id="main">
+			    <div id="messages">
+			        <div class="data"></div>
+			    </div>
+			    <div id="update">
+			        <div class="data"></div>
+			    </div>
+			    <div id="notification">
+			        <div class="data"></div>
+			    </div>
+			    <div id="error">
+			        <div class="data"></div>
+			    </div>
+			</div>
+			<footer>
+			</footer>
+		</div>
+	<script type="text/javascript">
+	    // Instantiate YUI Lib
+	    YUI().use('node', 'event', function (Y) {
+            var node = Y.Node,
+                target = node.one("#main"),
+                EventProto = {};
+            
+            // setup trigger to write eventSource data
+            EventProto.write = function (e) {
+                var data, info, format;
+                
+                switch (e.type) {
+                    case "message":
+                        //console.log(e);
+                        target.one("#messages > .data").prepend("<p>" + e.data + "</p>");
+                        break;
+                    case "update":
+                        target.one("#update > .data").prepend(e.data);
+                        break;
+                    case "notification":
+                        target.one("#notification > .data").prepend(e.data);
+                        break;
+                    case "error":
+                        target.one("#error > .data").prepend(e.data);
+                        break;
+                    case "user":
+                        data = JSON.parse(e.data);
+                        info = {
+                            message: data.message,
+                            url: data.url
+                        };
+                        
+                        format = "<p>Notification</p><p>" + info.message + "</p><p><a href='" + info.url + "'>System Generated Link</a>";
+                        target.one("#messages > .data").setContent(format);
+                        break;
+                }
+            }
+            
+            EventProto.init = (function () {
+                // check for browser support for SSE (Server-Sent Events)
+        		if (window) {
+        			if (window.EventSource)
+        			{
+        				console.log("EventSource is available");
+        				// create an object, passing it the name and location of the server side script
+        				var source = new EventSource("/notifications/<%= @user %>");
+
+        				source.addEventListener("message", function (e) {
+        					EventProto.write(e);
+        				}, false);
+        				
+        				source.addEventListener("user", function (e) {
+        					EventProto.write(e);
+        				}, false);
+
+        				source.addEventListener("error", function (e) {
+        				    console.log(e);
+        					if (e.readyState == EventSource.CLOSED) {
+        						EventProto.write(e);
+        					}
+        				}, false);
+        			}
+        			else 
+        			{
+        				console.log("Browser doesn't support EventSource");
+        			}
+        		}
+            }());
+        });
+	</script>
+	</body>
+</html>

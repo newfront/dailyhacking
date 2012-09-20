@@ -1,0 +1,317 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 ArialMT;
+\f3\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red8\green73\blue186;}
+\margl1440\margr1440\vieww12820\viewh23420\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 H263-1998 (h.263+)
+\b0 \
+---------------\
+RTP HEADER: [80731d58569716f64e491365]\
+-----------------------------------------------------\
+Version (V)                               :      2 bits\
+Padding (_P)                           :  1 bit\
+Extension (X)                           :  1 bit\
+Contributing Sources (CC)   :  4 bits\
+-----------------------------------------------------\
+Marker (M)                :  1 bit\
+Payload Type (PT)  :  7 bits\
+-------------------------------------------------------\
+Sequence Number (SN)  : 16 bits\
+--------------------------------------------------------\
+Timestamp (TS)  : 32 bits\
+--------------------------------------------------------\
+Synchronization Source (SSRC)  : 32 bits\
+---------------------------------------------------------\
+\
+*Typical RTP Header is 12 bytes\
+\
+----------------------------------------------------------\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+\cf0 80\\73\\1d\\58\\56\\97\\16\\f6\\4e\\49\\13\\65\
+10\\0\\0\\0000 [V,P,X,CC]   \
+01110011 [M PT]\
+0001110101011000 [SN]\
+01010110100101110001011011110110\
+01001110010010010001001101100101\
+\
+------------\
+V: 10       ("10".to_a.pack('H*')) => \\020\\ = version 2 (big endian) = 2.0\
+P: 0         ("0".to_a.pack('H*')) => \\000 = 0\
+X: 0         ("0".to_a.pack('H*')) => \\000 = 0\
+CC: 0      ("0000".to_a.pack('H*')) => \\000 = 0\
+------------\
+M: 0\
+PT: 1110011\
+------------\
+SN: 0001110101011000\
+------------\
+TS: 01010110100101110001011011110110\
+------------\
+SSRC: 01001110010010010001001101100101\
+------------\
+100000000111001100011101010110000101011010010111000101101111011001001110010010010001001101100101\
+\
+-------------------------------------------------------------------\
+h263-1998 (h263+) payload header\
+\
+
+\b RR
+\b0 : 5 bits\
+(Reserved Bits) 5 bits\
+\
+
+\b P
+\b0 : 1 bit\
+(Picture Start or Picture Segment) --- (GOB/Slice) start, or (EOS or EOSBB) video sequence end\
+\pard\pardeftab720\ql\qnatural
+
+\f1\fs26 \cf0 /GOB/slice/EOS/EOSBS\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 \
+
+\b V
+\b0 : 1 bit\
+Indicates the presence of an 8-bit field containing information on Video Redundancy Coding (VRC), which follows immediately after the initial 
+\b 16
+\b0  bits of the payload header.\
+\
+
+\b PLEN
+\b0 : 6 bits\
+Length, in bytes, of the extra picture header. If no extra picture header is attached, PLEN = 0, \
+If PLEN >0, the extra picture header is attached immediately following the rest of the payload header. Length omits the first two bytes of the picture start code (PSC).\
+\
+
+\b PEBIT
+\b0 : 3 bits\
+Indicates the number of bits that shall be ignored in the last byte of the picture header. If PLEN is not zero, the ignored bits shall be the least significant bits of the byte. If PLEN is zero, than PEBIT shall also be zero. \
+\
+----------------------------\
+
+\b VRC 
+\b0 (Video Redundancy Coding) Optional Header\
+----------------------------\
+
+\b TID
+\b0 : 3 bits\
+Thread ID, up to 7 threads are allowed. \
+\
+
+\f2 Each frame of h263+ VRC data will use as reference information only sync frames or frames within the same thread. 
+\fs26 By convention, thread 0 is expected to be the "canonical" thread, which is the thread from which the sync frame should ideally be used.  In the case of corruption or loss of the thread 0 representation, a representation of the sync frame with a higher thread number can be used by the decoder.  Lower thread numbers are expected to contain representations of the sync frames equal to or better than higher thread numbers in the absence of data corruption or loss.\
+\
+
+\b Trun
+\b0 : 4 bits\
+Monotonically increasing (modulo 16) 4-bit number counting the packet number within each thread\
+\
+
+\b S
+\b0 : 1 bit\
+\pard\pardeftab720\ql\qnatural
+\cf0 A bit that indicates that the packet content is for a sync frame.  \
+\
+An encoder using VRC may send several representations of the same "sync" picture, in order to ensure that, regardless of which thread of pictures is corrupted by errors or packet losses, the reception of at least one representation of a particular picture is ensured (within at least one thread).  The sync picture can then be used for the prediction of any thread.  If packet losses have not occurred, then the sync frame contents of thread 0 can be used, and those of other threads can be discarded (and similarly for other threads).  Thread 0 is considered the "canonical" thread, the use of which is preferable to all others.  The contents of packets having lower thread numbers shall be considered as having a higher processing and delivery priority than those with higher thread numbers.  Thus, packets having lower thread numbers for a given sync frame shall be delivered first to the decoder under loss-free and low-time-jitter conditions, which will result in the discarding of the sync contents of the higher-numbered threads\
+\
+---------------------------------------\
+\
+*
+\b NOTE
+\b0 \
+ALL h263+ start codes (PICTURE, GOB, Slice, EOS, EOSBS) being with 16 zero-valued bits\
+\
+* if start code is byte-aligned, and occurs at the beginning of a packet, these two bytes shall be removed from the H163+ compressed data stream\
+\
+\
+\
+\
+Picture Segment Packets and Sequence Ending Packets (
+\b P
+\b0 =1)\
+\
+---------------------------------------\
+\
+
+\b First Packet in a Frame
+\b0 \
+----------------------------------------------\
+
+\b RR
+\b0 : 5 bits (reserved)\
+
+\b P
+\b0 : 1\
+
+\b V
+\b0 : 0\
+
+\b PLEN
+\b0 : 000000\
+
+\b PEBIT
+\b0 : 000\
+\
+00000\\1\\0\\000000\\000 : 16 bits header\
+\
+-----------------------------------------------\
+\
+
+\b Packets that begin with GBSC 
+\b0 or 
+\b SSC\
+
+\b0 --------------------------------------------------------------\
+GBSC  = Group of Blocks, Start Code\
+SSC = Start Slice Code\
+--------------------------------------------------------------\
+[RR] 00000 [P]1 [VRC] V [PLEN] 001001 [PEBIT]XXX [GBSC] 10000\
+\
+
+\b RR
+\b0 : 5 bits\
+
+\b P
+\b0 : 1\
+
+\b V
+\b0 : 1\
+
+\b PLEN
+\b0 : 001001\
+
+\b PEBIT
+\b0 : XXX\
+\
+100000 prior to picture header \
+\
+--------------------------------------------------------------\
+\
+\
+
+\b Packets that begin with EOS or EOSBS\
+
+\b0 ---------------------------------------------------------------\
+
+\b RR
+\b0 : 5 bits\
+
+\b P
+\b0 : 1\
+
+\b V
+\b0 : \
+
+\b PLEN
+\b0 : 000000\
+
+\b PEBIT
+\b0 : 000\
+\
+111111 = EOS code\
+\
+00 : 2 zero bits prior to the start of the picture \
+\
+-----------------------------------------------------------------\
+\
+
+\b Patterns\
+
+\b0 -----------------------------------------------------------------\
+
+\b \
+100000
+\b0 \
+First 6 bits of Payload: 100000   \
+P-BIT = 1\
+PLEN = 0\
+Packet Carries: Picture\
+------------------------------------------------------------------\
+Remarks: Typical Picture\
+------------------------------------------------------------------\
+\
+
+\b 100000
+\b0 \
+First 6 bits of Payload: 100000\
+P-Bit: 1\
+PLEN: greater than zero\
+Packet Carries: Picture\
+-------------------------------------------------------------------\
+Remarks: Note UFEP *\
+-------------------------------------------------------------------\
+\
+
+\b 1xxxxx\
+
+\b0 First 6 bits of Payload: 1xxxxx\
+P-Bit: 1\
+PLEN: 0\
+Packet Carries: GOB/Slice/EOS/EOSBS\
+--------------------------------------------------------------------\
+Remarks: See possible GNs (Group Number) from section 5.2.3 of H263 RFC\
+--------------------------------------------------------------------\
+\
+
+\b 1xxxxx
+\b0 \
+First 6 bits of Payload: 1xxxxx\
+P-Bit: 1\
+PLEN: greater than zero\
+Packet Carries: GOB/SLICE\
+----------------------------------------------------------------------\
+Remarks: See possible GNs (Group Number) from section 5.2.3 of H263 RFC\
+--------------------------------------------------------------------\
+\
+IANA Mime-types\
+-----------------------------\
+
+\f1 video/H263\
+video/H263-1998\
+video/H263-2000
+\f2 \
+\
+------------------------------------------------\
+Allowed optional Annexes\
+------------------------------------------------\
+(pg 17) http://tools.ietf.org/rfc/rfc4629.txt\
+\
+F,I,J,T,K,N,P\
+-----------------------------------\
+QCIF=1;CIF=1;VGA=1 (means try QCIF with MPI of 1, or CIF with MPI of 1, or VGA with MPI of 1) 
+\b MPI
+\b0  = Minimum Picture Interval\
+------------------------------------\
+\
+--------------------------------------------------------------------------------\
+Decoding FSV 
+\b h263-1998
+\b0 \
+fmtp: QCIF=1;CIF=1;VGA=1;I=1;J=1;T=1\
+\
+Annex I = 1, 
+\f0 Advanced INTRA Coding mode
+\f2 \
+\
+Annex J - allows 
+\b four motion
+\b0  vectors to be sent for a single macroblock, with one 
+\b motion vector
+\b0  sent for each of the four 8x8 luminance blocks within the macroblock, the corresponding 8x8 chrominance area uses a 
+\b single
+\b0 , derived motion vector.\
+\
+\pard\pardeftab720\sa260\ql\qnatural
+
+\f3\b \cf0 Deblocking Filter (Annex J)
+\b0 : Special commands are defined to accelerate deblocking filters, whether used within the {\field{\*\fldinst{HYPERLINK "http://msdn.microsoft.com/en-us/library/ff568436(v=vs.85).aspx"}}{\fldrslt \cf2 motion-compensated prediction}} loop as with Annex J, or outside the loop as is the case when deblocking H.261 pictures or H.263 baseline pictures. The {\field{\*\fldinst{HYPERLINK "http://msdn.microsoft.com/en-us/library/ff556288(v=vs.85).aspx#wdkgloss.host_cpu"}}{\fldrslt 
+\i \cf2 host CPU}} must create deblocking commands that observe group of blocks (GOB) or slice segment boundaries, if necessary.
+\f2 \
+\pard\pardeftab720\ql\qnatural
+\cf0 \
+\
+\
+\
+}

@@ -1,0 +1,55 @@
+======================================
+HTML5 EventSource (Server-Sent Events)
+Abstract: EventSource is an API for opening HTTP connections in order to receive push notifications from a server in the form of DOM Events
+W3C Spec: http://www.w3.org/TR/eventsource/
+
+Usage: 
+1. download js-eventsource
+2. cd js-eventsource
+3. run > bundle install
+4. thin start
+
+Now the server will be running on port 3000
+
+Testing
+1. go to localhost:3000 in Safari, Firefox or Chrome
+2. you will see "no messages" continue to write itself on your screen
+3. open a new browser window and go to localhost:3000/admin/list
+4. click on Write Notification
+5. write yourself a notification (note: should be plain text as there is no stripping of html entities currently, as this is just a demo)
+6. press Send Notification
+7. Watch as the notification is broadcast to you
+
+License and Copyright Information
+---------------------------------
+Copyright (c) 2012, Yahoo! Inc.  All rights reserved.
+
+Redistribution and use of this software in source and binary forms, 
+with or without modification, are permitted provided that the following 
+conditions are met:
+
+* Redistributions of source code must retain the above
+  copyright notice, this list of conditions and the
+  following disclaimer.
+
+* Redistributions in binary form must reproduce the above
+  copyright notice, this list of conditions and the
+  following disclaimer in the documentation and/or other
+  materials provided with the distribution.
+
+* Neither the name of Yahoo! Inc. nor the names of its
+  contributors may be used to endorse or promote products
+  derived from this software without specific prior
+  written permission of Yahoo! Inc.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS 
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED 
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 

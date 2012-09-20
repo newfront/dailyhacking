@@ -1,0 +1,18 @@
+-------------------------------------
+Research on depacketizing h263-1998 from binary RTP Streams
+
+/movies is a directory of depacketized and re-encoded video from original fsv packet capture
+/notes stores all notes on the research behind the depacketization service
+/tools is a directory of lib files created to work with the depacketization methods
+
+Usage: 
+> ruby fsv_to_raw_h263-1998.rb h263-1998_1046am_040411.fsv
+
+Outputs: 
+New raw h263p file. h263p is the file extension for h263-1998 video. 
+
+Copyright: 
+There is no copyright. You are welcome to use this research for your own projects. 
+
+Cheers,
+Scott Haines

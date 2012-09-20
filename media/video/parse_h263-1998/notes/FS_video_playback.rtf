@@ -1,0 +1,72 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww8980\viewh10100\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 These are the passthru video codecs: (mod_h26x)\
+\
+       H261             - H.261 Video\
+       H263             - H.263 Video\
+       H263-1998        - H.263-1998 Video\
+       H263-2000        - H.263-2000 Video\
+       H264             - H.264 Video\
+\
+\
+- ringback uk test 183\
+-----------------------------------\
+9182\
+\
+video_record: 9193 (h264 unified)\
+video_playback: 9194\
+\
+a=rtpmap:115 H263-1998/90000\
+a=fmtp:115 QCIF=1;CIF=1;VGA=1;I=1;J=1;T=1\
+\
+i\
+\
+\
+\
+(source - created video packets)\
+sudo tcpdump -i en1 -w /Users/Scott/Desktop/output_cap udp port 63878\
+\
+mod_dptools.c (929) Channel [sofia/internal/1000@192.168.1.161]\
+\
+recv 731 bytes\
+\
+
+\b ngrep 
+\b0 -qt -W byline port \
+\
+\
+----------------------------------------------\
+\
+Freeswitcher\
+---------------------\
+inbound_events: port 8021\
+outbound_events: port 8084\
+\
+\
+\
+EXECUTE sofia/internal/1000@192.168.1.161 log(Local_SDP? v=0\
+o=- 1300750175846359 1 IN IP4 192.168.1.161\
+s=Counterpath Bria 3.1\
+c=IN IP4 192.168.1.161\
+t=0 0\
+a=ice-ufrag:90f32c\
+a=ice-pwd:371048be644ecd071a966d3f9dd65d26\
+m=audio 58904 RTP/AVP 100 106 0 97 8 18 101\
+a=rtpmap:100 SPEEX/16000\
+a=rtpmap:106 SPEEX-FEC/16000\
+a=rtpmap:97 SPEEX/8000\
+a=rtpmap:18 G729/8000\
+a=fmtp:18 annexb=yes\
+a=rtpmap:101 telephone-event/8000\
+a=fmtp:101 0-15\
+a=candidate:1 1 UDP 659136 192.168.1.161 58904 typ host\
+a=candidate:1 2 UDP 659134 192.168.1.161 58905 typ host\
+)\
+\
+-------------------------------------------------------\
+originate user/1000 80801984   (auto-places a call by the user at extension 1000 to 80801984. \
+}
