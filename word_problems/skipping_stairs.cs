@@ -10,13 +10,11 @@ namespace WordProblems
 	 */
 	public class StairMaster {
 		public int steps;
-
 		public StairMaster(){}
-
 		//for the steps available, we need to figure out combinations that are affective
-		public int getCombinations(int steps) {
+		public long getCombinations(int steps) {
 			if (steps < 0) {
-				return 1;
+				return 0;
 			} else if (steps == 0) {
 				return 1;
 			} else
@@ -28,7 +26,7 @@ namespace WordProblems
 		public static void Main (string[] args)
 		{
 			StairMaster fonda = new StairMaster ();
-			int combinations = fonda.getCombinations(29);
+			long combinations = fonda.getCombinations(29);
 			Console.WriteLine("total possible combinations is " + combinations);
 		}
 	}
