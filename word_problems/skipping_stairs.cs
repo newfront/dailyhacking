@@ -18,6 +18,7 @@ namespace WordProblems
 			} else if (steps == 0) {
 				return 1;
 			} else
+			// basically here we use the 1 hop, 2 hop and 3rd hop to get all possible combinations
 				return getCombinations (steps - 1) + getCombinations (steps - 2) + getCombinations (steps - 3);
 		}
 	}
