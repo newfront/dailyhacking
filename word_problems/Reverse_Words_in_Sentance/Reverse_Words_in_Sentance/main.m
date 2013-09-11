@@ -49,7 +49,7 @@ int main (int argc, const char * argv[])
 
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 
-    char original[] = "This is my string";
+    char original[] = "This is really cool. Yippie";
     
     reverse_words(original);
 
