@@ -9,11 +9,9 @@ namespace WordProblems
 	 * Find all the possible ways the child can run up the stair case
 	 */
 	public class StairMaster {
-		public int[] hop_dist = new int[]{1,2,3};
 		public int steps;
 
 		public StairMaster(){}
-		public StairMaster(int steps){this.steps = steps;}
 
 		//for the steps available, we need to figure out combinations that are affective
 		public int getCombinations(int steps) {
